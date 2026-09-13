@@ -1,0 +1,100 @@
+vehicle_type,engine_type,fuel_type,mileage,symptom_text,battery_voltage,engine_temperature,starting_behavior,noise_type,warning_light,previous_service,fault_category
+Motorcycle,Single Cylinder 4-Stroke,Petrol,24500,clicking sound when starting the bike and starter motor refuses to turn over,11.4,45.0,slow crank,clicking,battery,Battery Inspection (12 mo ago),Battery / Starting System
+Motorcycle,Single Cylinder 4-Stroke,Petrol,18200,starter motor clicks repeatedly and headlight dims completely when pressing ignition switch,10.8,30.0,no crank,rapid clicking,battery,General Service (6 mo ago),Battery / Starting System
+Motorcycle,Parallel Twin,Petrol,32000,engine cranks very sluggishly and dies unless revved immediately after starting,11.2,35.0,sluggish crank,groaning,battery,None,Battery / Starting System
+Sedan,Inline-4 Turbo,Petrol,45000,car won't turn on in morning rapid clicking noise from under the hood and dashboard flicker,11.1,20.0,rapid clicking,clicking,battery,Oil Change (3 mo ago),Battery / Starting System
+Sedan,Inline-4,Petrol,68000,engine turns over very slowly before dying completely no electrical response on dash,10.2,25.0,no crank,none,battery,Brake Pad Change (8 mo ago),Battery / Starting System
+SUV,V6,Diesel,54000,ignition clicks when key is turned all lights go dim battery terminal has white residue,11.5,22.0,no crank,loud click,battery,Battery Replace (24 mo ago),Battery / Starting System
+Motorcycle,Single Cylinder,Petrol,12400,bike starts fine when cold but after stopping for 5 minutes starter only clicks,11.6,88.0,slow crank,clicking,none,Oil Change (2 mo ago),Battery / Starting System
+Sedan,Inline-4,Petrol,29000,push button start fails with clicking relay noise dashboard lights flicker rapidly,11.3,24.0,no crank,clicking relay,battery,None,Battery / Starting System
+Motorcycle,Single Cylinder 4-Stroke,Petrol,38000,starter motor spins freely with high pitch whirring but does not engage engine,12.4,50.0,free spin,whirring,none,Starter Service (18 mo ago),Battery / Starting System
+SUV,Inline-4,Diesel,82000,battery drains overnight completely dead in morning jump start works,9.8,18.0,dead,none,battery,General Service (1 mo ago),Battery / Starting System
+Motorcycle,Single Cylinder,Petrol,15000,high pitched squealing screeching noise whenever front brake lever is pulled,12.6,40.0,normal,squealing,none,General Service (5 mo ago),Braking System
+Sedan,Inline-4,Petrol,52000,metal on metal grinding sound from wheels when pressing brake pedal firmly,12.5,42.0,normal,grinding,brake,Brake Inspection (14 mo ago),Braking System
+Sedan,Inline-4,Petrol,41000,brake pedal feels soft and spongy sinking all the way to the floor before stopping,12.7,38.0,normal,hissing,brake,Brake Fluid Flush (20 mo ago),Braking System
+SUV,V6,Diesel,67000,steering wheel vibrates violently and shakes under heavy braking at highway speeds,12.4,55.0,normal,pulsating,brake,Tire Rotation (4 mo ago),Braking System
+Motorcycle,Parallel Twin,Petrol,21000,rear disc brake is grabbing inconsistently and feels pulsating on the foot pedal,12.6,48.0,normal,pulsating,none,Brake Pad Check (9 mo ago),Braking System
+Sedan,Inline-4,Petrol,34000,ABS warning light is illuminated on dashboard and brakes shudder during gentle stops,12.8,40.0,normal,chattering,abs,None,Braking System
+Motorcycle,Single Cylinder,Petrol,27500,front brake lever has excessive travel and stopping distance has doubled,12.5,45.0,normal,none,none,General Service (8 mo ago),Braking System
+Sedan,Inline-4,Petrol,73000,vehicle pulls hard to the right whenever brakes are applied,12.4,50.0,normal,scraping,none,Alignment (6 mo ago),Braking System
+SUV,V6,Diesel,89000,screeching sound while reversing and tapping brakes wear indicator making noise,12.6,35.0,normal,screeching,brake,Brake Pad Change (18 mo ago),Braking System
+Motorcycle,Single Cylinder 4-Stroke,Petrol,19000,brake fluid level is low in master cylinder reservoir and pedal feels mushy,12.5,40.0,normal,spongy,none,General Service (3 mo ago),Braking System
+Motorcycle,Single Cylinder 4-Stroke,Petrol,31000,loud metallic knocking tapping sound from top of cylinder head when accelerating,12.6,92.0,normal,metallic tapping,check engine,Valve Clearance (16 mo ago),Engine & Valvetrain
+Sedan,Inline-4 Turbo,Petrol,58000,engine misfiring shaking violently on idle check engine light flashing continuously,12.4,96.0,rough idle,misfire stutter,check engine,Spark Plug Change (22 mo ago),Engine & Valvetrain
+SUV,Inline-4,Diesel,94000,thick white smoke billowing from exhaust tailpipe with sweet smell and power loss,12.5,108.0,rough,rumbling,check engine,Oil Change (4 mo ago),Engine & Valvetrain
+Sedan,Inline-4,Petrol,81000,blue smoke coming from exhaust when revving engine burning oil rapidly,12.6,89.0,normal,ticking,oil pressure,Oil Service (1 mo ago),Engine & Valvetrain
+Motorcycle,Parallel Twin,Petrol,16500,ticking noise synchronized with RPM coming from cylinder head valves need adjustment,12.7,82.0,normal,rapid ticking,none,General Service (6 mo ago),Engine & Valvetrain
+Sedan,Inline-4,Petrol,64000,engine stalls suddenly when coming to a complete stop and hesitates heavily during acceleration,12.3,90.0,stalling,stumble,check engine,Throttle Body Clean (12 mo ago),Engine & Valvetrain
+SUV,V6,Petrol,110000,deep metallic thudding knocking sound from engine block lower end gets louder under load,12.5,94.0,heavy vibration,deep knock,oil pressure,Oil Change (6 mo ago),Engine & Valvetrain
+Motorcycle,Single Cylinder,Petrol,22000,engine lacks power on uphill climbs bogs down when opening full throttle,12.5,86.0,hesitation,bogging,none,Air Filter Clean (7 mo ago),Engine & Valvetrain
+Sedan,Inline-4 Turbo,Petrol,49000,turbo whistling noise became a loud dentist drill whining sound with dramatic boost loss,12.6,91.0,normal,whining drill,check engine,Oil Service (3 mo ago),Engine & Valvetrain
+Motorcycle,Single Cylinder,Petrol,36000,severe engine vibration felt through handlebars and footpegs at 4000 RPM,12.4,87.0,harsh vibration,buzzing,none,Engine Mount Check (15 mo ago),Engine & Valvetrain
+Sedan,Inline-4,Petrol,62000,engine temperature gauge is in red zone steam coming out from under bonnet coolant boiling,12.5,122.0,overheating,bubbling hiss,temperature,Coolant Topup (6 mo ago),Cooling System
+SUV,V6,Diesel,78000,sweet smelling green coolant puddle leaking under front bumper radiator area,12.6,105.0,normal,dripping,temperature,Radiator Flush (18 mo ago),Cooling System
+Motorcycle,Single Cylinder Liquid-Cooled,Petrol,19800,radiator fan is not spinning and coolant temperature warning light glows red in traffic,12.4,115.0,normal,silent fan,temperature,General Service (4 mo ago),Cooling System
+Sedan,Inline-4 Turbo,Petrol,51000,car heater blows cold air inside cabin while engine temperature keeps climbing high,12.5,112.0,normal,gurgling,temperature,Thermostat Check (20 mo ago),Cooling System
+SUV,Inline-4,Diesel,88000,radiator upper hose is swollen ballooning under pressure and extremely hard to squeeze,12.6,118.0,normal,hissing,temperature,Coolant Service (10 mo ago),Cooling System
+Motorcycle,Single Cylinder Liquid-Cooled,Petrol,26000,coolant reservoir tank is overflowing and bubbling violently after short ride,12.5,116.0,normal,bubbling,temperature,None,Cooling System
+Sedan,Inline-4,Petrol,43000,squealing screeching belt sound from front of engine when AC or radiator kicks in,12.4,92.0,normal,belt squeal,battery,Belt Inspection (11 mo ago),Cooling System
+SUV,V6,Petrol,95000,water pump weeping coolant from pulley seal with rattling bearing noise,12.5,102.0,normal,bearing rattle,temperature,Water Pump (36 mo ago),Cooling System
+Motorcycle,Single Cylinder Liquid-Cooled,Petrol,14000,low coolant level warning light comes on constantly despite refilling overflow bottle,12.7,98.0,normal,none,temperature,General Service (2 mo ago),Cooling System
+Sedan,Inline-4,Petrol,70000,cooling fan runs at maximum speed continuously even immediately after turning on cold car,12.3,85.0,normal,loud fan roar,check engine,Sensor Scan (5 mo ago),Cooling System
+Sedan,Inline-4,Petrol,39000,headlights flicker intermittently power windows roll up extremely slowly and radio resets,12.1,88.0,normal,crackling,battery,Battery Check (4 mo ago),Electrical & Sensors
+Motorcycle,Single Cylinder,Petrol,21500,digital speedometer and instrument console blinking turn signals blinking too fast,13.9,45.0,normal,clicking relay,none,None,Electrical & Sensors
+SUV,V6,Diesel,61000,check engine light on with OBD code for O2 sensor and mass airflow sensor glitch,12.5,90.0,hesitant,none,check engine,Diagnostic Scan (8 mo ago),Electrical & Sensors
+Sedan,Inline-4,Petrol,48000,car horn not working steering wheel audio controls dead airbag warning light illuminated,12.6,35.0,normal,none,airbag,Clockspring Service (24 mo ago),Electrical & Sensors
+Motorcycle,Single Cylinder,Petrol,17000,fuse keeps blowing whenever high beam headlight switch is activated,12.5,40.0,normal,pop fuse,none,Wiring Check (6 mo ago),Electrical & Sensors
+SUV,Inline-4,Diesel,77000,alternator warning light battery icon on dash stays on while driving voltage drops to 11.8V,11.8,90.0,normal,alternator whine,battery,Alternator Test (14 mo ago),Electrical & Sensors
+Sedan,Inline-4 Turbo,Petrol,55000,crankshaft position sensor failure engine cuts off randomly at stop lights and won't restart for 10 min,12.4,93.0,intermittent stall,crank no start,check engine,Sensor Scan (3 mo ago),Electrical & Sensors
+Motorcycle,Parallel Twin,Petrol,28000,ignition coil failure cylinder 2 not firing spark plug has no spark,12.5,84.0,single cylinder run,thumping,check engine,Spark Plug (5 mo ago),Electrical & Sensors
+Sedan,Inline-4,Petrol,33000,keyless entry key fob not detected car refuses to lock unlock with proximity sensor,12.7,30.0,normal,electronic chime,key,Key Fob Battery (12 mo ago),Electrical & Sensors
+Motorcycle,Single Cylinder,Petrol,13000,taillight and rear brake light stay on permanently even when brake levers released,12.6,38.0,normal,none,none,General Service (1 mo ago),Electrical & Sensors
+Motorcycle,Single Cylinder,Petrol,29000,clutch slipping RPM shoots high when twisting throttle but bike does not accelerate,12.6,85.0,slipping acceleration,engine roar no speed,none,Clutch Cable Adj (7 mo ago),Transmission & Clutch
+Sedan,Automatic,Petrol,72000,automatic transmission slipping jerking violently when shifting between 2nd and 3rd gear,12.5,90.0,harsh shift,clunk,transmission,ATF Fluid Change (30 mo ago),Transmission & Clutch
+SUV,Manual 6-Speed,Diesel,84000,clutch pedal is stuck down to the floor unable to engage 1st gear or reverse,12.6,40.0,cannot engage gear,grinding,none,Clutch Master Cyl (15 mo ago),Transmission & Clutch
+Sedan,CVT,Petrol,63000,loud whining droning noise from CVT gearbox under acceleration with rubber burning odor,12.5,95.0,delayed response,whine drone,transmission,CVT Inspection (10 mo ago),Transmission & Clutch
+Motorcycle,Single Cylinder,Petrol,34000,hard to find neutral gear shift lever is stiff and clunks heavily into gear,12.5,88.0,stiff shift,heavy clunk,none,Oil Change (4 mo ago),Transmission & Clutch
+Sedan,Dual Clutch,Petrol,46000,transmission overheating warning light appears in stop and go traffic with jerky shudder,12.4,98.0,shuddering takeoff,metallic click,transmission,DCT Service (12 mo ago),Transmission & Clutch
+SUV,Manual,Diesel,91000,burning clutch smell when driving up steep inclines engine revs freely without moving vehicle,12.6,90.0,slip on load,friction burn,none,Clutch Plate (28 mo ago),Transmission & Clutch
+Motorcycle,Parallel Twin,Petrol,19500,drive chain slipping off sprocket teeth making loud clanking slapping noise against swingarm,12.7,50.0,normal,chain slap,none,Chain Lube (1 mo ago),Transmission & Clutch
+Sedan,Automatic,Petrol,83000,delayed engagement when shifting from Park into Drive takes 4 seconds with a loud thud,12.4,88.0,delayed drive,thud,transmission,None,Transmission & Clutch
+Motorcycle,Single Cylinder,Petrol,41000,clutch lever is stiff and sticky not returning smoothly clutch drag when stopped,12.5,60.0,creeps in gear,none,none,Clutch Cable (18 mo ago),Transmission & Clutch
+Motorcycle,Single Cylinder FI,Petrol,23000,strong smell of raw petrol fuel leaking from injector rail fuel pressure loss,12.5,50.0,hard start,none,check engine,Fuel Filter (8 mo ago),Fuel System
+Sedan,Inline-4 Turbo,Petrol,59000,engine sputtering jerking at high speeds feels starved of fuel fuel pump whining loudly,12.3,90.0,hesitation high speed,fuel pump whine,check engine,Fuel Pump Check (16 mo ago),Fuel System
+SUV,Common Rail Diesel,Diesel,87000,black smoke on acceleration diesel injectors leaking fuel economy dropped by 35 percent,12.5,92.0,loss of power,diesel clatter,check engine,Injector Clean (14 mo ago),Fuel System
+Motorcycle,Single Cylinder Carburetor,Petrol,31000,carburetor overflowing petrol dripping from overflow pipe engine bogging down,12.6,60.0,flooded engine,gurgling,none,Carb Clean (10 mo ago),Fuel System
+Sedan,Inline-4,Petrol,44000,hard cold starting requires 4-5 cranks fuel pressure regulator leaking vacuum hose,12.4,30.0,long crank,sputtering,none,General Service (3 mo ago),Fuel System
+Motorcycle,Single Cylinder FI,Petrol,18000,throttle response is jerky and cutting out when rolling on gas clogged fuel injector,12.7,82.0,jerky throttle,cutting out,check engine,Fuel System Clean (5 mo ago),Fuel System
+Sedan,Inline-4,Petrol,66000,check engine light P0171 system too lean error code bad fuel filter and fuel pump relay,12.4,89.0,lean misfire,lean ping,check engine,Diagnostic Scan (2 mo ago),Fuel System
+SUV,V6,Petrol,79000,fuel gauge needle drops to empty randomly fuel level sender unit in tank faulty,12.5,40.0,normal,none,fuel,None,Fuel System
+Motorcycle,Single Cylinder,Petrol,25000,fuel tank cap breather blocked engine stalls after 2 km opens with loud whoosh vacuum,12.6,70.0,stalls on vacuum,whoosh tank,none,Tank Inspection (12 mo ago),Fuel System
+Sedan,Inline-4,Diesel,93000,diesel particulate filter DPF blocked and fuel consumption doubled with limp mode activated,12.5,98.0,limp mode,sluggish drone,dpf,DPF Regen (6 mo ago),Fuel System
+Motorcycle,Single Cylinder,Petrol,16000,front wheel wobbling shaking violently above 60 kmh uneven tire tread wear,12.6,40.0,normal,humming wobble,none,Tire Pressure (1 mo ago),Tyres & Suspension
+Sedan,Inline-4,Petrol,47000,loud clunking popping noise from front suspension over speed bumps and potholes,12.5,35.0,normal,clunking knock,none,Suspension Check (12 mo ago),Tyres & Suspension
+SUV,V6,Diesel,75000,car drifting pulling to left side constantly tyre showing severe camber wear on inside edge,12.5,45.0,normal,road noise,tpms,Wheel Alignment (15 mo ago),Tyres & Suspension
+Motorcycle,Single Cylinder,Petrol,28000,front fork oil seal leaking greasy oil running down fork leg onto brake disc,12.6,42.0,bouncy dive,squelching,none,Fork Service (20 mo ago),Tyres & Suspension
+Sedan,Inline-4,Petrol,56000,low tire pressure warning light TPMS glowing nails embedded in rear right tyre tread,12.7,30.0,normal,rhythmic thumping,tpms,Tire Rotation (4 mo ago),Tyres & Suspension
+SUV,Inline-4,Diesel,86000,rear shock absorber blown car bounces repeatedly 4 times after hitting any bump on road,12.5,40.0,severe bounce,creaking,none,Shock Check (18 mo ago),Tyres & Suspension
+Motorcycle,Parallel Twin,Petrol,22500,rear tyre has deep sidewall cracking and dry rot loss of grip on wet road turns,12.6,38.0,slipping grip,none,none,Tire Replacement (36 mo ago),Tyres & Suspension
+Sedan,Inline-4,Petrol,69000,wheel bearing humming droning noise from front right hub gets louder when turning left,12.5,50.0,normal,loud drone roar,none,Wheel Bearing (24 mo ago),Tyres & Suspension
+Motorcycle,Single Cylinder,Petrol,19000,steering head stem bearing notched handlebars feel indexed and sticky in straight line,12.6,35.0,notchy steer,none,none,Head Bearing Adj (14 mo ago),Tyres & Suspension
+SUV,V6,Petrol,102000,ball joint creaking groaning noise when turning steering wheel at parking lot speeds,12.4,40.0,loose feel,creaking groan,none,Ball Joint (28 mo ago),Tyres & Suspension
+Motorcycle,Single Cylinder 4-Stroke,Petrol,25000,battery died overnight clicking starter relay dim lights,11.0,22.0,no crank,rapid clicks,battery,Battery Service (14 mo ago),Battery / Starting System
+Motorcycle,Single Cylinder,Petrol,14200,starter button does not activate anything completely dead electrical system,10.5,20.0,dead,silent,battery,None,Battery / Starting System
+Sedan,Inline-4,Petrol,51000,battery warning light illuminated alternator not charging battery voltage is 11.2V while running,11.2,85.0,sluggish start,whining,battery,General Service (4 mo ago),Battery / Starting System
+SUV,Diesel,Petrol,62000,starter motor clicks once heavily and does not crank engine at all,11.4,25.0,single click,heavy click,battery,Oil Change (2 mo ago),Battery / Starting System
+Motorcycle,Single Cylinder,Petrol,21000,brake pads worn down to metal backing plate loud metallic squeal,12.6,45.0,normal,grinding metal,none,Brake Check (12 mo ago),Braking System
+Sedan,Inline-4,Petrol,43000,brake pedal travels too close to floorboard spongy braking response,12.5,40.0,normal,air hissing,brake,Brake Bleed (16 mo ago),Braking System
+SUV,Diesel,Diesel,79000,ABS shudder during braking on dry tarmac ABS sensor fault on front left,12.6,45.0,normal,chatter,abs,Diagnostic Scan (3 mo ago),Braking System
+Motorcycle,Single Cylinder,Petrol,33000,engine valve clearance out of spec loud ticking noise from engine head,12.5,90.0,normal,valve ticking,none,General Service (9 mo ago),Engine & Valvetrain
+Sedan,Inline-4 Turbo,Petrol,67000,cylinder 3 misfire shuddering idle flashing check engine light,12.4,94.0,rough idle,misfire thud,check engine,Spark Plugs (18 mo ago),Engine & Valvetrain
+SUV,Diesel,Diesel,98000,engine overheating radiator coolant boiling out of reservoir tank,12.5,120.0,overheat,bubbling,temperature,Coolant Change (12 mo ago),Cooling System
+Sedan,Inline-4,Petrol,48000,radiator fan motor failed coolant temp climbing rapidly in traffic,12.4,116.0,normal,fan stopped,temperature,Fan Relay Check (8 mo ago),Cooling System
+Motorcycle,Single Cylinder,Petrol,19500,alternator stator coil burnt battery not charging while riding,11.9,80.0,dies while riding,electrical hum,battery,Stator Check (15 mo ago),Electrical & Sensors
+Sedan,Inline-4,Petrol,58000,MAF sensor dirty engine hesitates on acceleration check engine light on,12.5,90.0,hesitation,stumble,check engine,Sensor Clean (10 mo ago),Electrical & Sensors
+Motorcycle,Single Cylinder,Petrol,31000,clutch plates worn slipping under hard acceleration RPM increases without speed,12.6,85.0,clutch slip,engine revving,none,Clutch Cable (8 mo ago),Transmission & Clutch
+Sedan,Automatic,Petrol,76000,automatic transmission harsh shifts clunking sound when engaging Reverse,12.5,88.0,harsh reverse,heavy clunk,transmission,ATF Fluid (24 mo ago),Transmission & Clutch
+Motorcycle,Single Cylinder,Petrol,22000,fuel injector clogged engine bogging down on sudden throttle input,12.6,78.0,bogging,fuel sputter,check engine,Fuel Filter (6 mo ago),Fuel System
+Sedan,Inline-4 Turbo,Petrol,64000,fuel pump failing high pitch whine from fuel tank loss of fuel pressure,12.4,90.0,sputtering,pump whine,check engine,Fuel Pump (20 mo ago),Fuel System
+Motorcycle,Single Cylinder,Petrol,17500,front wheel wobble above 50 kmh worn steering head bearings,12.6,35.0,wobble,none,none,Tire Check (2 mo ago),Tyres & Suspension
+Sedan,Inline-4,Petrol,59000,front suspension strut leaking oil bottoming out over bumps,12.5,40.0,harsh bottom out,thumping,none,Suspension Service (18 mo ago),Tyres & Suspension
