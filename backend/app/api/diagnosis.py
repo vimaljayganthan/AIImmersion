@@ -199,7 +199,7 @@ async def run_ml_pipeline(req: PipelineRequest):
         model=PipelineModelSummary(
             name="AutoSense Fault Classifier",
             version="1.0",
-            type="TF-IDF + Random Forest Classifier (120 Estimators)",
+            type="TF-IDF + Random Forest Classifier (150 Estimators)",
             feature_count=vocab_size,
             classes_count=len(classes),
             classes=classes

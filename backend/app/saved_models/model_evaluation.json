@@ -1,11 +1,11 @@
 {
   "model_name": "AutoSense TF-IDF + Random Forest Classifier",
-  "evaluation_date": "2026-09-13 17:21:24",
-  "overall_accuracy": 0.646,
-  "macro_precision": 0.621,
-  "macro_recall": 0.639,
-  "macro_f1": 0.625,
-  "weighted_f1": 0.63,
+  "evaluation_date": "2026-09-16 14:17:50",
+  "overall_accuracy": 0.747,
+  "macro_precision": 0.712,
+  "macro_recall": 0.743,
+  "macro_f1": 0.723,
+  "weighted_f1": 0.726,
   "classes": [
     "Battery / Starting System",
     "Braking System",
@@ -21,26 +21,26 @@
       13,
       0,
       0,
-      0,
-      0,
-      0,
       1,
+      0,
+      0,
+      0,
       0
     ],
     [
+      0,
+      11,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
       0,
       10,
-      0,
-      3,
-      0,
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      0,
-      10,
       1,
       1,
       0,
@@ -48,54 +48,54 @@
       0
     ],
     [
-      3,
       4,
-      0,
       1,
+      0,
+      0,
       3,
       1,
       0,
-      0
-    ],
-    [
-      0,
-      0,
-      1,
-      2,
-      3,
-      1,
-      2,
       3
     ],
     [
-      1,
-      1,
       0,
       0,
-      2,
+      0,
+      1,
       8,
       0,
-      0
+      1,
+      2
     ],
     [
       0,
       0,
       0,
+      0,
       1,
-      0,
-      0,
       11,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      10,
       0
     ],
     [
       0,
       1,
       0,
-      1,
-      1,
       0,
-      1,
-      8
+      0,
+      0,
+      0,
+      11
     ]
   ],
   "per_class_metrics": {
@@ -106,96 +106,96 @@
       "support": 14
     },
     "Braking System": {
-      "precision": 0.625,
-      "recall": 0.769,
-      "f1_score": 0.69,
+      "precision": 0.846,
+      "recall": 0.846,
+      "f1_score": 0.846,
       "support": 13
     },
     "Cooling System": {
+      "precision": 1.0,
+      "recall": 0.833,
+      "f1_score": 0.909,
+      "support": 12
+    },
+    "Electrical & Sensors": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 12
+    },
+    "Engine & Valvetrain": {
+      "precision": 0.571,
+      "recall": 0.667,
+      "f1_score": 0.615,
+      "support": 12
+    },
+    "Fuel System": {
+      "precision": 0.917,
+      "recall": 0.917,
+      "f1_score": 0.917,
+      "support": 12
+    },
+    "Transmission & Clutch": {
       "precision": 0.909,
       "recall": 0.833,
       "f1_score": 0.87,
       "support": 12
     },
-    "Electrical & Sensors": {
-      "precision": 0.111,
-      "recall": 0.083,
-      "f1_score": 0.095,
-      "support": 12
-    },
-    "Engine & Valvetrain": {
-      "precision": 0.3,
-      "recall": 0.25,
-      "f1_score": 0.273,
-      "support": 12
-    },
-    "Fuel System": {
-      "precision": 0.8,
-      "recall": 0.667,
-      "f1_score": 0.727,
-      "support": 12
-    },
-    "Transmission & Clutch": {
-      "precision": 0.733,
-      "recall": 0.917,
-      "f1_score": 0.815,
-      "support": 12
-    },
     "Tyres & Suspension": {
-      "precision": 0.727,
-      "recall": 0.667,
-      "f1_score": 0.696,
+      "precision": 0.688,
+      "recall": 0.917,
+      "f1_score": 0.786,
       "support": 12
     }
   },
   "feature_importances_top": [
     {
       "feature": "fuel",
-      "importance": 0.0379
-    },
-    {
-      "feature": "normal warning",
-      "importance": 0.0273
+      "importance": 0.0447
     },
     {
       "feature": "temperature",
-      "importance": 0.0265
-    },
-    {
-      "feature": "starting normal",
-      "importance": 0.0247
-    },
-    {
-      "feature": "engine",
-      "importance": 0.0247
-    },
-    {
-      "feature": "noise",
-      "importance": 0.0228
-    },
-    {
-      "feature": "normal",
-      "importance": 0.0225
-    },
-    {
-      "feature": "warning temperature",
-      "importance": 0.0223
-    },
-    {
-      "feature": "battery",
-      "importance": 0.0218
-    },
-    {
-      "feature": "temperature vehicle",
-      "importance": 0.0215
+      "importance": 0.0293
     },
     {
       "feature": "brake",
-      "importance": 0.0212
+      "importance": 0.0287
     },
     {
-      "feature": "starting",
-      "importance": 0.0197
+      "feature": "battery",
+      "importance": 0.0286
+    },
+    {
+      "feature": "engine",
+      "importance": 0.0264
+    },
+    {
+      "feature": "coolant",
+      "importance": 0.0225
+    },
+    {
+      "feature": "check engine",
+      "importance": 0.0179
+    },
+    {
+      "feature": "check",
+      "importance": 0.017
+    },
+    {
+      "feature": "light",
+      "importance": 0.0166
+    },
+    {
+      "feature": "crank",
+      "importance": 0.0163
+    },
+    {
+      "feature": "transmission",
+      "importance": 0.0157
+    },
+    {
+      "feature": "motorcycle",
+      "importance": 0.0145
     }
   ],
   "dataset_distribution": {

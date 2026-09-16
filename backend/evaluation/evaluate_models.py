@@ -28,28 +28,34 @@ def main():
 
     enriched_texts = []
     for _, row in df.iterrows():
-        text_parts = [
-            str(row.get("symptom_text", "")),
-            f"noise {row.get('noise_type', '')}" if pd.notna(row.get("noise_type")) else "",
-            f"starting {row.get('starting_behavior', '')}" if pd.notna(row.get("starting_behavior")) else "",
-            f"warning {row.get('warning_light', '')}" if pd.notna(row.get("warning_light")) else "",
-            f"vehicle {row.get('vehicle_type', '')}" if pd.notna(row.get("vehicle_type")) else ""
-        ]
-        enriched_texts.append(" ".join(filter(None, text_parts)))
+        parts = [str(row.get("symptom_text", ""))]
+        noise = str(row.get("noise_type", "")).strip()
+        if noise and noise.lower() != "none":
+            parts.append(noise)
+        warning = str(row.get("warning_light", "")).strip()
+        if warning and warning.lower() != "none":
+            parts.append(warning)
+        starting = str(row.get("starting_behavior", "")).strip()
+        if starting and starting.lower() not in ["none", "normal"]:
+            parts.append(starting)
+        vehicle = str(row.get("vehicle_type", "")).strip()
+        if vehicle and vehicle.lower() != "none":
+            parts.append(vehicle)
+        enriched_texts.append(" ".join(filter(None, parts)))
 
     y = df["fault_category"].values
 
     vectorizer = TfidfVectorizer(
         ngram_range=(1, 2),
-        max_features=500,
+        max_features=600,
         sublinear_tf=True,
         stop_words="english"
     )
     X = vectorizer.fit_transform(enriched_texts)
 
     rf = RandomForestClassifier(
-        n_estimators=120,
-        max_depth=15,
+        n_estimators=150,
+        max_depth=None,
         random_state=42,
         class_weight="balanced"
     )

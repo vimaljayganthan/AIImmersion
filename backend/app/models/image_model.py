@@ -2,7 +2,7 @@ import io
 import cv2
 import numpy as np
 from PIL import Image
-from typing import Dict, Tuple, List, Any
+from typing import Dict, Tuple, List, Any, Optional
 
 CATEGORIES = [
     "Battery / Starting System",
@@ -18,8 +18,16 @@ CATEGORIES = [
 class ImageFaultAnalyzer:
     """
     Computer Vision Preprocessor & Visual Feature Extractor using OpenCV.
-    Analyzes visual attributes (color spectra in HSV space for warning indicators,
-    Sobel/Canny edge density for tire tread/cracking, fluid wetness/dark patch detection).
+
+    Visual Feature Pipeline:
+    1. Image Decoding: Decodes in-memory image bytes (JPEG, PNG, WebP) into BGR numpy arrays.
+    2. Color Space Conversion: Maps BGR to HSV (Hue-Saturation-Value) for robust illumination-invariant color segmentation.
+    3. Warning Indicator Detection:
+       - Amber Luminous Mask (H: 10-25, S: 100-255, V: 100-255): Detects check-engine, battery, and electrical malfunction lamps.
+       - Red Luminous Mask (H: 0-10 & 160-180): Detects critical brake, oil pressure, and coolant over-temperature indicators.
+    4. Structural Edge Gradient Analysis: Applies Canny edge detector (thresholds 100/200) on grayscale conversion
+       to measure edge density, isolating tyre tread wear, cracked belts, or scored brake rotors.
+    5. Luminance & Contrast: Computes mean brightness and standard deviation to detect dark localized fluid seepage or soot.
     """
     def __init__(self):
         self.is_prototype = True
@@ -27,10 +35,16 @@ class ImageFaultAnalyzer:
 
     def extract_visual_features(self, image_bytes: bytes) -> Dict[str, Any]:
         """
-        Extracts real computer vision attributes using OpenCV.
+        Decodes image bytes and extracts computer vision attributes using OpenCV.
+
+        Args:
+            image_bytes: Raw binary image payload.
+
+        Returns:
+            Dict containing dimensions, edge density, warning color ratios, and luminance metrics.
         """
         try:
-            # Decode image
+            # Decode image from byte buffer into OpenCV BGR matrix
             nparr = np.frombuffer(image_bytes, np.uint8)
             img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
             
@@ -39,18 +53,17 @@ class ImageFaultAnalyzer:
 
             height, width, channels = img.shape
             
-            # 1. Color Space Conversion
+            # 1. Color Space Conversions
             hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             
-            # 2. Amber / Red Warning Light Mask (Indicator detection)
-            # Amber range: H: 10-25, S: 100-255, V: 100-255
+            # 2. Amber Warning Light Mask (Check Engine / Battery / ABS)
             lower_amber = np.array([10, 100, 100])
             upper_amber = np.array([25, 255, 255])
             amber_mask = cv2.inRange(hsv, lower_amber, upper_amber)
             amber_ratio = float(np.sum(amber_mask > 0) / (height * width))
 
-            # Red range (low & high hue wraps)
+            # Red Warning Light Mask (Brake failure, Coolant overheat, Oil alert)
             lower_red1 = np.array([0, 100, 100])
             upper_red1 = np.array([10, 255, 255])
             lower_red2 = np.array([160, 100, 100])
@@ -61,11 +74,11 @@ class ImageFaultAnalyzer:
             )
             red_ratio = float(np.sum(red_mask > 0) / (height * width))
 
-            # 3. Edge / Texture Density (Tire wear, mechanical cracks)
+            # 3. Structural Edge / Texture Density (Tyre tread degradation, brake rotor scoring)
             edges = cv2.Canny(gray, 100, 200)
             edge_density = float(np.sum(edges > 0) / (height * width))
 
-            # 4. Brightness & Contrast
+            # 4. Brightness & Contrast (Fluid leaks, soot build-up)
             mean_brightness = float(np.mean(gray))
             std_contrast = float(np.std(gray))
 
@@ -84,8 +97,15 @@ class ImageFaultAnalyzer:
 
     def predict_proba(self, image_bytes: bytes) -> Tuple[Dict[str, float], List[str], Dict[str, Any]]:
         """
-        Visual classification based on extracted OpenCV features.
-        Clearly marked as prototype visual analyzer with real image preprocessing.
+        Performs visual feature extraction and maps visual patterns to fault candidate categories.
+
+        Args:
+            image_bytes: Raw binary image payload.
+
+        Returns:
+            - Dict mapping fault category to normalized probability [0.0 - 1.0].
+            - List of visual evidence strings.
+            - Raw extracted visual features dictionary.
         """
         features = self.extract_visual_features(image_bytes)
 
@@ -122,6 +142,7 @@ class ImageFaultAnalyzer:
             probs["Engine & Valvetrain"] += 0.25
             evidence.append(f"Computer Vision: Uniform surface reflectance (contrast: {features.get('contrast_std', 0):.1f}) across component geometry.")
 
+        # Normalize probabilities to strictly sum to 1.0
         total = sum(probs.values())
         norm_probs = {k: round(v / total, 4) for k, v in probs.items()}
 

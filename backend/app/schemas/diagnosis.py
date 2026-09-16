@@ -22,11 +22,11 @@ class DiagnosticEvidence(BaseModel):
 class ModelInfo(BaseModel):
     name: str = "AutoSense Fault Classifier"
     version: str = "1.0"
-    type: str = "TF-IDF + Random Forest Classifier (120 Estimators)"
+    type: str = "TF-IDF + Random Forest Classifier (150 Estimators)"
     model_type: Optional[str] = "TF-IDF + Random Forest Classifier (Late Multimodal Fusion)"
     dataset_source: Optional[str] = "AutoSense Structured Vehicle Fault Dataset (Prototype/Dev)"
-    training_samples: int = 80
-    feature_count: int = 500
+    training_samples: int = 99
+    feature_count: int = 600
     classes_count: int = 8
     classes: List[str] = []
     trained_at: Optional[str] = None

@@ -24,8 +24,17 @@ CATEGORIES = [
 class AudioFaultAnalyzer:
     """
     Acoustic Feature Extraction and Fault Classifier for Engine & Mechanical Sounds.
-    Extracts MFCCs (13 coefficients), Spectral Centroid, Spectral Bandwidth,
-    Zero Crossing Rate (ZCR), and Root-Mean-Square (RMS) Energy.
+
+    Acoustic Feature Pipeline:
+    1. Audio Loading: Decodes in-memory audio byte stream (WAV, MP3, WebM) resampled to 22,050 Hz.
+    2. MFCCs (13 Coefficients): Extracts Mel-Frequency Cepstral Coefficients capturing the spectral
+       envelope and harmonic timbre of mechanical resonances.
+    3. Spectral Centroid: Computes the 'brightness' or center of gravity of the sound frequency spectrum.
+       High centroids (>2600 Hz) correlate with metal-on-metal friction or belt squeal.
+       Low centroids (<1300 Hz) correlate with starter clicks or low-rpm rumble.
+    4. Spectral Bandwidth: Measures frequency spread around the centroid.
+    5. Zero Crossing Rate (ZCR): Measures rate of sign-changes in the signal, indicating noisiness/hiss.
+    6. Root-Mean-Square (RMS) Energy: Measures signal power to isolate high-energy percussive knocking.
     """
     def __init__(self):
         self.is_prototype = True
@@ -33,10 +42,16 @@ class AudioFaultAnalyzer:
 
     def extract_features(self, audio_bytes: bytes) -> Dict[str, Any]:
         """
-        Loads audio from bytes and extracts acoustic signal descriptors.
+        Loads audio from bytes and extracts acoustic signal descriptors using librosa.
+
+        Args:
+            audio_bytes: Raw audio binary data.
+
+        Returns:
+            Dict containing computed signal metrics (duration, RMS, ZCR, Spectral Centroid, MFCC summary).
         """
         if not AUDIO_AVAILABLE:
-            return {"error": "librosa / soundfile not installed in Python environment."}
+            return {"error": "librosa / soundfile not installed in Python environment.", "success": False}
 
         try:
             # Load audio buffer using librosa / soundfile
@@ -44,25 +59,25 @@ class AudioFaultAnalyzer:
             y, sr = librosa.load(bio, sr=22050, duration=10.0)
             
             if len(y) == 0:
-                return {"error": "Empty audio data"}
+                return {"error": "Empty audio data", "success": False}
 
-            # 1. MFCCs (13 coefficients)
+            # 1. MFCCs (13 coefficients for spectral envelope representation)
             mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
             mfcc_means = [float(np.mean(m)) for m in mfccs]
             
-            # 2. RMS Energy
+            # 2. RMS Energy (percussive combustion / mechanical power)
             rms = librosa.feature.rms(y=y)
             rms_mean = float(np.mean(rms))
             
-            # 3. Zero Crossing Rate
+            # 3. Zero Crossing Rate (high frequency noise / friction screech)
             zcr = librosa.feature.zero_crossing_rate(y)
             zcr_mean = float(np.mean(zcr))
             
-            # 4. Spectral Centroid
+            # 4. Spectral Centroid (frequency center of mass in Hz)
             spectral_centroid = librosa.feature.spectral_centroid(y=y, sr=sr)
             centroid_mean = float(np.mean(spectral_centroid))
             
-            # 5. Spectral Bandwidth
+            # 5. Spectral Bandwidth (spectral dispersion in Hz)
             spectral_bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr)
             bandwidth_mean = float(np.mean(spectral_bandwidth))
             
@@ -84,23 +99,31 @@ class AudioFaultAnalyzer:
     def predict_proba(self, audio_bytes: bytes) -> Tuple[Dict[str, float], List[str], Dict[str, Any]]:
         """
         Performs acoustic feature extraction and classifies mechanical sounds based on acoustic signatures.
-        Transparently labeled as prototype acoustic feature-based heuristics mapping to fault classes.
+
+        Acoustic heuristics based on physical automotive sound profiles:
+        - High ZCR & high centroid (>2600 Hz): high-pitch screeching -> Braking System or Cooling fan belt slip.
+        - Low centroid (<1300 Hz) with low RMS: solenoid clicks / weak crank harmonics -> Battery / Starting System.
+        - High RMS (>0.15): high mechanical energy / combustion tapping -> Engine & Valvetrain or Transmission.
+        - Moderate centroid (1400-2400 Hz): rotational mechanical frequencies -> Engine / Transmission.
+
+        Args:
+            audio_bytes: Raw audio binary data.
+
+        Returns:
+            - Dict mapping fault category to normalized probability [0.0 - 1.0].
+            - List of acoustic evidence strings.
+            - Raw extracted acoustic features dictionary.
         """
         features = self.extract_features(audio_bytes)
         
         if not features.get("success"):
-            # Fallback uniform if extraction fails
+            # Fallback uniform distribution if extraction fails
             uniform = 1.0 / len(CATEGORIES)
             return {cat: uniform for cat in CATEGORIES}, ["Audio file unreadable or corrupt."], {}
 
         zcr = features.get("zero_crossing_rate", 0.05)
         centroid = features.get("spectral_centroid_hz", 1500.0)
         rms = features.get("rms_energy", 0.05)
-        
-        # Acoustic heuristics based on physical sound profiles:
-        # - High ZCR & high centroid (>2800 Hz): high pitch screeching/squealing -> Braking System or Cooling belt
-        # - Low centroid (<1200 Hz) with irregular pulse/clicks -> Battery/Starter Relay or Engine knock
-        # - Moderate centroid (1400-2400 Hz) with high RMS -> Engine & Valvetrain or Exhaust/Transmission
         
         probs = {cat: 0.05 for cat in CATEGORIES}
         evidence = []
@@ -122,7 +145,7 @@ class AudioFaultAnalyzer:
             probs["Transmission & Clutch"] += 0.30
             evidence.append(f"Acoustic analysis: Moderate spectral distribution ({centroid:.0f} Hz, RMS: {rms:.3f}) across mechanical rotational frequencies.")
 
-        # Normalize probabilities to sum to 1.0
+        # Normalize probabilities so they strictly sum to 1.0
         total = sum(probs.values())
         norm_probs = {k: round(v / total, 4) for k, v in probs.items()}
 

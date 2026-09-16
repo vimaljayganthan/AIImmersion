@@ -12,7 +12,7 @@ CATEGORIES = [
     "Tyres & Suspension"
 ]
 
-# Baseline modality importance prior
+# Baseline modality importance prior: Text NLP (0.40) > Acoustic Analysis (0.35) > Visual Inspection (0.25)
 BASE_WEIGHTS = {
     "text": 0.40,
     "audio": 0.35,
@@ -93,8 +93,17 @@ SAFETY_WARNINGS = {
 
 class MultimodalFusionEngine:
     """
-    Late Fusion Engine for AutoSense Multimodal Fault Diagnosis.
-    Fuses unimodal probability distributions using dynamic weighted late fusion.
+    Late Multimodal Decision Fusion Engine for DriveIQ Fault Diagnostics.
+
+    Fusion Algorithm:
+    1. Modality Detection: Identifies active modalities from provided unimodal probabilities (text, audio, image).
+    2. Dynamic Re-normalization: Re-calculates normalized weights W_m = W_m_base / sum(W_active)
+       ensuring total active weight strictly sums to 1.0.
+    3. Weighted Convex Combination: Fused Probability P_fused(c) = sum(W_m * P_m(c)) across all categories c.
+    4. Consensus Boosting: When 2+ independent modalities identify the same top candidate category,
+       a confidence bonus is applied (up to 0.95 cap) to reflect multimodal cross-validation agreement.
+    5. Actionable Mechanical Synthesis: Automatically maps predicted primary category to severity grade,
+       estimated repair cost band (INR), OEM diagnostic recommendations, and safety alerts.
     """
     @staticmethod
     def fuse(
