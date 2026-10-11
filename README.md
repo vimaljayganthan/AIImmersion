@@ -6,116 +6,138 @@
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4+-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![Pytest](https://img.shields.io/badge/Pytest-8.0+-0A9EDC?logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![Vitest](https://img.shields.io/badge/Vitest-5.0+-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Pytest](https://img.shields.io/badge/Pytest-9.0+-0A9EDC?logo=pytest&logoColor=white)](https://docs.pytest.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_15-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
 
-**DriveIQ** is an end-to-end, multi-modal intelligent automotive diagnosis and workshop service-management ecosystem. It unites authentic machine learning inference (NLP symptom classification, acoustic spectral analysis, and computer vision warning lamp detection), transparent repair cost estimation, verified mechanic discovery, digital job card tracking, and full cloud database persistence via Supabase PostgreSQL.
+**DriveIQ** is an enterprise-grade, multimodal intelligent automotive diagnosis and workshop service-management platform. It unifies authentic machine learning inference (NLP symptom classification, acoustic spectral analysis, and computer vision warning lamp detection), transparent repair cost estimation, verified mechanic discovery, digital job card tracking, and full cloud database persistence via Supabase PostgreSQL.
 
 ---
 
 ## 📑 Table of Contents
 
-1. [Key Platform Features](#-key-platform-features)
-2. [Three Dedicated Role Portals](#-three-dedicated-role-portals)
-3. [Technology Stack](#-technology-stack)
-4. [Repository Folder Structure](#-repository-folder-structure)
-5. [Getting Started & Run Instructions](#-getting-started--run-instructions)
-6. [Testing & Quality Assurance (pytest)](#-testing--quality-assurance-pytest)
-7. [AIML Diagnostic Pipeline In-Depth](#-aiml-diagnostic-pipeline-in-depth)
-8. [Comprehensive API Endpoint Documentation](#-comprehensive-api-endpoint-documentation)
-9. [Relational Database Schema Documentation](#-relational-database-schema-documentation)
-10. [License](#-license)
+1. [Project Overview](#1-project-overview)
+2. [Problem Statement](#2-problem-statement)
+3. [Solution Overview](#3-solution-overview)
+4. [System Architecture](#4-system-architecture)
+5. [Technology Stack](#5-technology-stack)
+6. [Project Structure](#6-project-structure)
+7. [Installation & Setup](#7-installation--setup)
+8. [Environment Variables](#8-environment-variables)
+9. [Running Frontend](#9-running-frontend)
+10. [Running Backend](#10-running-backend)
+11. [Database Setup](#11-database-setup)
+12. [AI/ML Diagnostic Pipeline](#12-aiml-diagnostic-pipeline)
+13. [API Documentation](#13-api-documentation)
+14. [Database Schema](#14-database-schema)
+15. [Error Handling & Error Boundaries](#15-error-handling--error-boundaries)
+16. [Testing & Quality Assurance](#16-testing--quality-assurance)
+17. [Test Cases & Verification Matrix](#17-test-cases--verification-matrix)
+18. [How to Run Tests](#18-how-to-run-tests)
+19. [Expected Test Results](#19-expected-test-results)
+20. [Future Improvements](#20-future-improvements)
 
 ---
 
-## 🚀 Key Platform Features
+## 1. Project Overview
 
-### 1. Multi-Modal AIML Diagnostic Engine
-- **Natural Language Symptom Classification**: Converts unstructured driver descriptions into structured TF-IDF unigram/bigram feature matrices classified across 8 automotive mechanical categories using an ensemble Random Forest classifier.
-- **Acoustic Waveform Analysis**: Decodes raw audio waveforms with `librosa` to extract 13 Mel-Frequency Cepstral Coefficients (MFCCs), Spectral Centroid, Zero Crossing Rate (ZCR), and Root-Mean-Square (RMS) Energy.
-- **Computer Vision Preprocessing**: Utilizes `OpenCV` to convert component and dashboard imagery into HSV space for illuminated amber/red indicator detection and Canny edge gradient analysis.
-- **Late Decision Fusion**: Dynamically calculates normalized modality weights, fuses unimodal probability distributions, applies consensus cross-validation boosting, and maps predictions to mechanical severity, cost ranges, and safety alerts.
+DriveIQ bridges the critical trust and technical gap between vehicle owners, automotive workshops, and fleet operators. Rather than relying on static questionnaires or opaque repair quotes, DriveIQ employs a **Multimodal Late-Fusion Machine Learning Engine** running alongside a **Contextual Vehicle AI Assistant**. 
 
-### 2. Contextual Vehicle AI Assistant
-- Multi-turn conversational interface aware of the active vehicle's profile (make, model, year, odometer, maintenance records).
-- Automated safety-critical keyword screening (smoke, fire, brake loss, fuel leaks) with instant emergency guidance.
-- Dynamic follow-up question banks narrowing down symptoms before invoking real ML inference.
-
-### 3. Transparent Workshop & Fleet Workflow
-- Instant appointment scheduling directly from diagnostic results with auto-populated symptoms and preliminary assessments.
-- Mechanic bay management, job card status transitions, and itemized invoice generation.
-- Real-time SuperAdmin platform telemetry, model cross-validation audit, and user registry oversight.
+Drivers describe symptoms in natural language, record engine audio sounds, or upload dashboard photos. DriveIQ breaks down the fault probability across 8 major automotive subsystems, provides transparent labor/parts cost projections, and facilitates seamless 1-click appointment booking with verified local mechanics.
 
 ---
 
-## 👥 Three Dedicated Role Portals
+## 2. Problem Statement
+
+Automotive maintenance suffers from four chronic industry problems:
+1. **Information Asymmetry**: Vehicle owners struggle to articulate mechanical problems accurately and frequently face inflated repair estimates from unvetted workshops.
+2. **Delayed Intervention**: Subtle mechanical acoustic cues (e.g., valve tappet ticking, worn brake pad squeal, alternator bearing hum) are ignored until catastrophic component failure occurs.
+3. **Fragmented Workflows**: Diagnostic scanning, price estimation, mechanic discovery, booking, and service record keeping exist in isolated, non-interoperable tools.
+4. **Opaque Diagnostic Logic**: Most automotive software treats diagnostics as a "black box" without explaining feature weights, probability distributions, or underlying mechanical evidence.
+
+---
+
+## 3. Solution Overview
+
+DriveIQ resolves these challenges through an integrated 3-portal architecture:
+- **Vehicle Owner Portal (`/owner`)**: Digital garage fleet management, 4-stage ML diagnostic inspector, contextual multi-turn AI assistant, transparent cost breakdown, and instant workshop booking.
+- **Mechanic Pro Portal (`/mechanic`)**: Real-time workshop bay Kanban manager (`pending` → `accepted` → `vehicle_received` → `diagnosing` → `repairing` → `quality_check` → `completed`), AI diagnosis verification, inventory management, and invoice tracking.
+- **SuperAdmin Console (`/admin`)**: Ecosystem oversight, telemetry audit, Stratified 5-Fold Cross-Validation metrics inspection, user/mechanic directory controls, and platform revenue monitoring.
+
+---
+
+## 4. System Architecture
 
 ```
-                      ┌─────────────────────────────────────────┐
-                      │          DriveIQ Main Entry             │
-                      │          http://localhost:5173          │
-                      └────────────────────┬────────────────────┘
-                                           │
-         ┌─────────────────────────────────┼─────────────────────────────────┐
-         ▼                                 ▼                                 ▼
-┌───────────────────┐             ┌───────────────────┐             ┌───────────────────┐
-│   Vehicle Owner   │             │   Mechanic Pro    │             │   SuperAdmin      │
-│      Portal       │             │      Portal       │             │     Console       │
-│      /owner       │             │    /mechanic      │             │     /admin        │
-└────────┬──────────┘             └────────┬──────────┘             └────────┬──────────┘
-         │                                 │                                 │
-         ├► My Garage & Fleet              ├► Active Bay Manager             ├► Platform Overview
-         ├► Multimodal AI Scan             ├► Incoming Bookings              ├► User & Garage Registry
-         ├► Contextual AI Assistant        ├► Job Cards & Inspections        ├► Fleet Health Audit
-         ├► Repair Cost Estimator          ├► Parts Inventory & Stock        ├► ML Model Telemetry
-         ├► Verified Mechanic Booking      ├► Customer Directory             ├► Database Health
-         └► Service Records & History      └► Earnings & Invoice Tracking    └► System Configuration
+                       ┌─────────────────────────────────────────┐
+                       │          DriveIQ Main Entry             │
+                       │          http://localhost:5173          │
+                       └────────────────────┬────────────────────┘
+                                            │
+         ┌──────────────────────────────────┼──────────────────────────────────┐
+         ▼                                  ▼                                  ▼
+┌───────────────────┐              ┌───────────────────┐              ┌───────────────────┐
+│   Vehicle Owner   │              │   Mechanic Pro    │              │   SuperAdmin      │
+│      Portal       │              │      Portal       │              │     Console       │
+│      /owner       │              │    /mechanic      │              │     /admin        │
+└────────┬──────────┘              └────────┬──────────┘              └────────┬──────────┘
+         │                                  │                                  │
+         ├► My Garage & Fleet               ├► Active Bay Kanban               ├► Platform Overview
+         ├► Multimodal AI Scan              ├► Incoming Bookings               ├► User & Garage Registry
+         ├► Contextual AI Assistant         ├► Job Cards & Inspections         ├► Fleet Health Audit
+         ├► Repair Cost Estimator           ├► Parts Inventory & Stock         ├► ML Model Telemetry
+         ├► Verified Mechanic Booking       ├► Customer Directory              ├► Database Health
+         └► Service Records & History       └► Earnings & Invoice Tracking     └► System Configuration
+                                            │
+                                            ▼
+                     ┌──────────────────────────────────────────────┐
+                     │          DriveIQ Service Layer               │
+                     │  - apiAiService (FastAPI client + fallback)  │
+                     │  - dbService (Supabase Repository Layer)     │
+                     │  - AuthContext (RBAC & Session Manager)      │
+                     └───────────────┬──────────────┬───────────────┘
+                                     │              │
+                   HTTP/REST (Port 8000)            PostgreSQL / REST
+                                     ▼              ▼
+                     ┌──────────────────────┐  ┌────────────────────┐
+                     │   FastAPI Backend    │  │ Supabase Cloud DB  │
+                     │ - TF-IDF NLP         │  │ - 15 Indexed Tables│
+                     │ - Random Forest      │  │ - RLS Security     │
+                     │ - Acoustic Feature   │  │ - Cascade Triggers │
+                     │ - Vision Processing  │  │ - Storage Buckets  │
+                     │ - Late Fusion Engine │  └────────────────────┘
+                     └──────────────────────┘
 ```
 
-### 1. Vehicle Owner Portal (`/owner`)
-- **Garage Fleet Management**: Full CRUD operations on owned two-wheelers and four-wheelers with health scores and service milestones.
-- **AI Diagnostics Studio**: Interactive multimodal scan inputs (text, audio recordings, photo uploads) with step-by-step pipeline inspection.
-- **AI Diagnostic Assistant**: Multi-turn chat with guided diagnostic question flows and seamless transition into booking.
-- **Cost Estimator & Booking**: Transparent labour/parts cost projections and 1-click booking with verified workshops.
+---
 
-### 2. Mechanic Pro Portal (`/mechanic`)
-- **Workshop Bay Kanban**: Manage live vehicle jobs across lifecycle stages (`pending` → `accepted` → `vehicle_received` → `diagnosing` → `repairing` → `quality_check` → `completed`).
-- **AI Assessment Validation**: Review owner-submitted diagnostic evidence and attach verified technician feedback.
-- **Spare Parts Inventory**: Stock level monitoring, category filtering, and real-time replenishment alerts.
-- **Customer CRM**: Service histories, lifetime spend records, and vehicle loyalty tiers.
+## 5. Technology Stack
 
-### 3. SuperAdmin Console (`/admin`)
-- **Platform Analytics**: Real-time platform revenue metrics, active user registrations, and booking volume charts.
-- **ML Pipeline Inspector & Telemetry**: Live inspection of vocabulary n-grams, TF-IDF weights, class distribution, and Stratified 5-Fold Cross-Validation metrics.
-- **Fleet Risk Auditing**: Identification of critical-severity vehicles and overdue maintenance items across the entire ecosystem.
+| Layer | Technologies | Purpose |
+| :--- | :--- | :--- |
+| **Frontend UI** | React 18.3, TypeScript 5.6, Vite 6.0, Tailwind CSS 3.4 | High-performance SPA with strict typing and responsive layout |
+| **Icons & Design** | Lucide React, Glassmorphism, Slate Design System | Visual indicators, status badges, interactive cards |
+| **State Management** | React Context (`AuthContext`, `DataContext`, `SettingsContext`) | Decoupled domain state with synchronized localStorage fallback |
+| **Frontend Testing** | Vitest 5.0, React Testing Library 16.3, JSDOM 30.1 | Unit testing for auth, vehicles, bookings, diagnoses, error boundaries |
+| **Backend API** | Python 3.10+, FastAPI, Uvicorn, Pydantic v2, Python-Multipart | Asynchronous high-throughput diagnostic REST API |
+| **Machine Learning** | Scikit-Learn 1.4+, Pandas, NumPy, Joblib | TF-IDF Vectorizer, Random Forest (150 estimators), multiclass inference |
+| **Signal & Vision** | Librosa, Soundfile, OpenCV Python, Pillow | Acoustic spectral feature extraction (MFCCs), visual edge/color analysis |
+| **Backend Testing** | Pytest 9.1+, HTTPX, FastAPI TestClient | Full test suite covering endpoints, ML pipelines, error handling, fusion |
+| **Database & Auth** | Supabase (PostgreSQL 15), RLS Policies, Triggers | Relational data persistence with automatic timestamp triggers and foreign keys |
 
 ---
 
-## 🛠️ Technology Stack
-
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend UI** | React 18.3, TypeScript 5.6, Vite 6.0, Tailwind CSS 3.4, Lucide Icons, React Router v6 |
-| **State & Context** | React Context API (`AuthContext`, `DataContext`, `SettingsContext`), LocalStorage fallback |
-| **Backend API** | Python 3.10+, FastAPI, Uvicorn, Pydantic v2, Python-Multipart |
-| **AIML & Data Science** | Scikit-Learn (TF-IDF Vectorizer, Random Forest Classifier), Pandas, NumPy, Joblib |
-| **Signal & Vision Processing** | Librosa, Soundfile (Audio MFCCs & Spectral Centroid), OpenCV Python, Pillow |
-| **Database & Auth** | Supabase (PostgreSQL 15), Row Level Security (RLS), Triggers, B-Tree Indexes |
-| **Testing & Quality** | Pytest 8.0+, HTTPX, FastAPI TestClient |
-
----
-
-## 📁 Repository Folder Structure
+## 6. Project Structure
 
 ```
 .
 ├── backend/                              # Python FastAPI & AIML Diagnostic Subsystem
 │   ├── app/
 │   │   ├── api/
-│   │   │   ├── assistant.py             # AI Assistant chat & intent endpoint (/api/assistant/chat)
-│   │   │   └── diagnosis.py             # Diagnostic & ML pipeline endpoints (/api/diagnosis, /api/ml/pipeline)
+│   │   │   ├── assistant.py             # AI Assistant multi-turn chat (/api/assistant/chat)
+│   │   │   └── diagnosis.py             # ML pipeline & diagnosis endpoints (/api/diagnosis, /api/ml/pipeline)
 │   │   ├── data/
-│   │   │   └── vehicle_faults_dataset.csv # 99-sample structured vehicle faults training dataset
+│   │   │   └── vehicle_faults_dataset.csv # Structured 8-category vehicle faults training dataset
 │   │   ├── models/
 │   │   │   ├── audio_model.py           # Librosa acoustic feature extractor & analyzer
 │   │   │   ├── fusion.py                # Late Multimodal Decision Fusion Engine
@@ -129,15 +151,16 @@
 │   │   │   └── diagnosis.py             # Pydantic request/response schemas
 │   │   ├── services/
 │   │   │   └── diagnosis_service.py     # Multimodal orchestration service
-│   │   └── main.py                      # FastAPI application entry point, CORS, and routing
+│   │   └── main.py                      # FastAPI entry point, CORS, and centralized exception handlers
 │   ├── evaluation/
-│   │   └── evaluate_models.py           # 5-fold Stratified CV evaluation script
-│   ├── tests/                           # Complete isolated Pytest test suite
+│   │   └── evaluate_models.py           # Stratified 5-fold cross-validation evaluation script
+│   ├── tests/                           # Pytest test suite (61 tests)
 │   │   ├── __init__.py
 │   │   ├── conftest.py                  # Pytest fixtures (TestClient, synthetic WAV/JPEG generators)
-│   │   ├── test_api_endpoints.py        # Endpoint tests for all FastAPI routes
+│   │   ├── test_api_endpoints.py        # Integration tests for all REST routes
 │   │   ├── test_audio_model.py          # Acoustic feature extraction & classification tests
-│   │   ├── test_error_handling.py       # 400/404/405/422 status code & failure tests
+│   │   ├── test_diagnosis_cases.py      # Edge cases, unknown symptoms, probability integrity
+│   │   ├── test_error_handling.py       # 400/404/405/422/500 status code & failure tests
 │   │   ├── test_fusion.py               # Late multimodal decision fusion tests
 │   │   ├── test_image_model.py          # OpenCV visual processing tests
 │   │   └── test_text_model.py           # NLP TF-IDF & Random Forest unit tests
@@ -147,11 +170,14 @@
 │   │   └── train_text_model.py          # Text classifier training pipeline
 │   └── requirements.txt                 # Pinned Python backend dependencies
 ├── src/                                  # React 18 TypeScript Frontend
-│   ├── auth/                            # Authentication context and role guards
-│   ├── components/                      # Shared reusable UI components (Cards, Badges, Modals, Charts)
+│   ├── auth/                            # Authentication context, modal, and ProtectedRoute guards
+│   ├── components/                      # UI components (Cards, Badges, Modals, Charts, ErrorBoundary)
+│   │   └── common/
+│   │       └── ErrorBoundary.tsx        # Branded React Error Boundary with recovery actions & telemetry
 │   ├── config/                          # API and Supabase client configuration
 │   ├── context/                         # Global state management (DataContext, SettingsContext)
 │   ├── database/                        # Database schemas, mock fallback data, seed scripts
+│   ├── layouts/                         # DashboardLayout with nested ErrorBoundary around Outlet
 │   ├── pages/                           # Role-based application views
 │   │   ├── admin/                       # SuperAdmin console views
 │   │   ├── auth/                        # Login & Registration views
@@ -159,149 +185,199 @@
 │   │   ├── owner/                       # Vehicle Owner portal views
 │   │   └── settings/                    # Global user settings views
 │   ├── services/                        # API adapters (FastAPI client, Supabase database client)
+│   │   ├── ai/                          # apiAiService, mockAiService, assistantEngine
+│   │   └── supabase/                    # dbService repository layer
+│   ├── test/                            # Vitest + React Testing Library test suite (35 tests)
+│   │   ├── setup.ts                     # Test setup and Supabase mocking
+│   │   ├── auth.test.ts                 # Authentication & RBAC unit tests
+│   │   ├── bookings.test.ts             # Service booking lifecycle unit tests
+│   │   ├── diagnosis.test.ts            # Diagnostic pipeline & AI adapter unit tests
+│   │   ├── errorBoundary.test.tsx       # Error Boundary rendering & recovery unit tests
+│   │   └── vehicles.test.ts             # Vehicle management unit tests
 │   ├── types/                           # Shared TypeScript domain interfaces
 │   ├── App.tsx                          # React router definition
-│   └── main.tsx                         # Frontend DOM mount
+│   └── main.tsx                         # Frontend DOM mount wrapped in ErrorBoundary
 ├── supabase/                            # Supabase cloud schema migrations & seed data
-├── package.json                         # Node dependencies & scripts
-├── requirements.txt                     # Root Python dependencies mirror
-├── tailwind.config.js                   # Tailwind CSS configuration
-└── tsconfig.json                        # TypeScript compiler options
+│   ├── schema.sql                       # Full PostgreSQL schema with tables, indexes, triggers
+│   ├── seed.sql                         # Seed data for demo garages and mechanics
+│   └── setup_full.sql                   # Complete setup bundle
+├── package.json                         # Node dependencies & test scripts
+├── vite.config.ts                       # Vite & Vitest configuration
+└── tsconfig.json                        # TypeScript compiler configuration
 ```
 
 ---
 
-## ⚡ Getting Started & Run Instructions
+## 7. Installation & Setup
 
 ### Prerequisites
 - **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
 - **Python**: v3.10.0 or higher
 - **pip**: v23.0+
 
-### 1. Clone Repository & Install Frontend
+### Clone & Install Dependencies
+
 ```bash
+# 1. Clone repository
 git clone https://github.com/vimaljayganthan/AIImmersion.git
 cd "AI Immersion 1"
+
+# 2. Install Frontend Node Dependencies
 npm install
+
+# 3. Install Backend Python Dependencies
+cd backend
+pip install -r requirements.txt
+cd ..
 ```
 
-### 2. Environment Variables Setup
-Create a `.env` file in the root directory:
+---
+
+## 8. Environment Variables
+
+Create a `.env` file in the project root directory:
+
 ```env
+# Backend API Base URL
 VITE_ML_API_URL=http://localhost:8000
+
+# Supabase PostgreSQL Configuration
 VITE_SUPABASE_URL=https://scgzcxslqewxqewblkwc.supabase.co
 VITE_SUPABASE_ANON_KEY=sb_publishable_UAPy5l8W57aMMHbggyKjfw_MvHtJI8j
 ```
 
-### 3. Setup & Run Python FastAPI Backend
-```bash
-# Set up virtual environment (optional but recommended)
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+> **Note on Offline Resilience**: If Supabase credentials are not provided or if the remote database is unreachable, DriveIQ automatically activates its built-in repository fallback layer (`mockData.ts`), ensuring zero crashes during local development, test execution, or offline evaluation.
 
-# Install backend dependencies
-pip install -r backend/requirements.txt
+---
 
-# Train models and generate evaluation metrics (if running for the first time)
-python3 backend/training/train_text_model.py
-python3 backend/evaluation/evaluate_models.py
+## 9. Running Frontend
 
-# Start the FastAPI server on port 8000
-python3 -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
-```
-The FastAPI backend will start at `http://localhost:8000`. Interactive OpenAPI documentation is available at `http://localhost:8000/docs`.
+Start the Vite development server:
 
-### 4. Run Vite Frontend Development Server
-In a new terminal window:
 ```bash
 npm run dev
 ```
-Open [http://localhost:5173](http://localhost:5173) in your browser.
 
----
+The application will start on **http://localhost:5173**.
 
-## 🧪 Testing & Quality Assurance (pytest)
-
-The project includes an isolated unit test suite in `backend/tests/` verifying all models, fusion algorithms, API routes, and error handlers.
-
-### Run All Unit Tests
+To create a production bundle:
 ```bash
-python3 -m pytest backend/tests -v
+npm run build
 ```
-
-### Test Suite Structure
-| Test Module | Coverage Scope |
-| :--- | :--- |
-| `test_text_model.py` | Training pipeline, artifact serialization, NLP feature extraction, valid predictions across all 8 mechanical categories, empty text, gibberish/out-of-vocabulary words, special characters, and long text edge cases. |
-| `test_audio_model.py` | Acoustic feature extraction (MFCCs, Spectral Centroid, ZCR, RMS), high/low frequency classification heuristics, empty audio buffer, and corrupted byte handling. |
-| `test_image_model.py` | OpenCV visual feature extraction, amber warning masks, red warning masks, structural Canny edge density, empty image bytes, and invalid image format handling. |
-| `test_fusion.py` | Unimodal, bimodal, and trimodal late decision fusion, dynamic weight normalization ($\sum W = 1.0$), multimodal consensus bonus, severity mapping, and missing modality error assertions. |
-| `test_api_endpoints.py` | Integration tests for `GET /health`, `GET /`, `POST /api/ml/pipeline`, `POST /api/model-lab/predict`, `POST /api/diagnosis`, `POST /api/diagnosis-json`, `GET /api/model-info`, `GET /api/model-evaluation`, and `POST /api/assistant/chat`. |
-| `test_error_handling.py` | 400 Bad Request, 404 Not Found, 405 Method Not Allowed, 422 Unprocessable Entity, missing multipart fields, and missing artifact graceful degradation. |
 
 ---
 
-## 🧠 AIML Diagnostic Pipeline In-Depth
+## 10. Running Backend
 
-```
-  Driver Symptom Input (+ Optional Vehicle Context)
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ STAGE 1: Text Preprocessing & Tokenization               │
-│ • Lowercase normalization & punctuation stripping        │
-│ • Filter domain tokens (length > 2, alphabetical)        │
-└──────────────────────┬───────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ STAGE 2: TF-IDF Feature Extraction                       │
-│ • (1, 2) N-gram range extraction (unigrams & bigrams)    │
-│ • Sublinear term-frequency scaling: 1 + log(tf)          │
-│ • Stop-words removal across 600 max feature vocabulary   │
-└──────────────────────┬───────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ STAGE 3: Random Forest Classification                    │
-│ • Ensemble of 150 randomized decision trees              │
-│ • Balanced class weights handling sample distribution    │
-│ • Generates calibrated probability vector P_text across  │
-│   8 standardized mechanical fault categories             │
-└──────────────────────┬───────────────────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ STAGE 4: Late Multimodal Decision Fusion                 │
-│ • Ingests P_text (0.40), P_audio (0.35), P_image (0.25)  │
-│ • Dynamically re-normalizes weights for active inputs    │
-│ • Applies consensus bonus if multiple modalities agree   │
-│ • Synthesizes severity, cost range, and recommendations  │
-└──────────────────────────────────────────────────────────┘
+Start the FastAPI Uvicorn server:
+
+```bash
+cd backend
+python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### The 8 Standardized Mechanical Fault Categories
-1. **Battery / Starting System**: Solenoid clicks, weak resting voltage (<12.4V), starter motor brush degradation.
-2. **Braking System**: Friction pad thinning (<3mm), hydraulic moisture contamination, disc rotor warping.
-3. **Engine & Valvetrain**: Valve clearance looseness, cylinder compression loss, spark plug fouling, combustion misfire.
-4. **Cooling System**: Radiator thermal boiling, water pump bearing weeping, fan relay activation failure.
-5. **Electrical & Sensors**: Alternator charging voltage drop (<13.8V), stator coil burns, fuse blowing, sensor glitches.
-6. **Transmission & Clutch**: Clutch friction plate slippage, cable free-play looseness, gear synchronizer clunking.
-7. **Fuel System**: Fuel injector nozzle clogging, fuel rail delivery pressure inconsistency, filter restriction.
-8. **Tyres & Suspension**: Tyre tread wear, fork seal hydraulic leakage, steering stem bearing notchiness.
+The backend API will be available at **http://localhost:8000**.
+- **Interactive Swagger Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Interactive ReDoc Documentation**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
-## 📡 Comprehensive API Endpoint Documentation
+## 11. Database Setup
 
-All endpoints are served by the FastAPI application on `http://localhost:8000`.
+DriveIQ is powered by a relational PostgreSQL database hosted on Supabase.
 
-### 1. Root & Status
+1. Navigate to your [Supabase Dashboard](https://supabase.com/).
+2. Open the **SQL Editor**.
+3. Execute the schema definitions from [supabase/schema.sql](file:///Users/vimaljayganthan/Documents/AI%20Immersion%201/supabase/schema.sql).
+4. Optionally run [supabase/seed.sql](file:///Users/vimaljayganthan/Documents/AI%20Immersion%201/supabase/seed.sql) to populate initial demo vehicles, workshops, and parts inventory.
+
+---
+
+## 12. AI/ML Diagnostic Pipeline
+
+The core machine learning engine runs a **4-Stage Deterministic Pipeline** coupled with **Late Multimodal Decision Fusion**:
+
+```
+                       User Symptom Description
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 1: Text Preprocessing & Tokenization                             │
+│ - Lowercase text normalization & punctuation stripping                │
+│ - Extraction of alphabetic tokens with length > 2                      │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 2: Sparse TF-IDF Feature Extraction                              │
+│ - (1, 2) N-gram range extraction (unigrams & bigrams)                  │
+│ - Sublinear term frequency scaling: 1 + log(tf)                        │
+│ - Matches against 600-term automotive diagnostic vocabulary            │
+│ - Extracts active nonzero feature weights                              │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 3: Ensemble Classification & Probabilistic Inference             │
+│ - 150-estimator Random Forest Classifier with balanced class weights   │
+│ - Computes posterior probability distribution P(Category | Symptoms)  │
+│ - Evaluates 8 discrete mechanical subsystems                           │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 4: Mechanical Advisory & Severity Synthesis                      │
+│ - Identifies primary fault category and confidence percentage          │
+│ - Assigns severity level (Low, Moderate, High, Critical)               │
+│ - Generates OEM-aligned mechanical inspection recommendations         │
+│ - Projects itemized parts and labor cost range                         │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Multimodal Late-Decision Fusion Formula
+
+When audio or image files are uploaded alongside text, unimodal likelihoods are combined using dynamic confidence-weighted late fusion:
+
+$$P_{fused}(c) = \frac{W_{text} \cdot P_{text}(c) + W_{audio} \cdot P_{audio}(c) + W_{image} \cdot P_{image}(c)}{W_{text} + W_{audio} + W_{image}} + B_{consensus}(c)$$
+
+- **Base Weights**: Text NLP ($W_{text} = 0.40$), Acoustic Waveform ($W_{audio} = 0.35$), Visual Inspection ($W_{image} = 0.25$).
+- **Dynamic Normalization**: If a modality is omitted or corrupt, its weight drops to $0.0$, and the remaining active weights are scaled to sum to $1.0$.
+- **Consensus Bonus**: If two or more independent modalities agree on the same fault category, a calibrated consensus bonus $B_{consensus} = +0.08$ is added before final softmax normalization.
+
+---
+
+## 13. API Documentation
+
+Every endpoint documented below exists in the actual FastAPI codebase (`backend/app/api/`).
+
+### 1. Health Check
+- **Method**: `GET`
+- **Route**: `/health` (also aliased at `/api/health`)
+- **Purpose**: Verify service health, FastAPI runtime, and ML model loaded status.
+- **Authentication**: None (Public)
+- **Request Parameters**: None
+- **Success Response (200 OK)**:
+  ```json
+  {
+    "status": "ok",
+    "service": "AutoSense ML Backend",
+    "model_loaded": true,
+    "model_name": "AutoSense Fault Classifier",
+    "model_version": "1.0"
+  }
+  ```
+- **Possible Responses**:
+  - `200 OK`: Service operational.
+
+---
+
+### 2. Service Root & Endpoint Directory
 - **Method**: `GET`
 - **Route**: `/`
-- **Purpose**: Verifies that the API service is online and lists primary available endpoints.
-- **Request Parameters**: None
-- **Response Example** (`200 OK`):
+- **Purpose**: Service discovery and available endpoint listing.
+- **Authentication**: None (Public)
+- **Success Response (200 OK)**:
   ```json
   {
     "status": "online",
@@ -320,49 +396,31 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
 
 ---
 
-### 2. Service Health Check
-- **Method**: `GET`
-- **Route**: `/health` or `/api/health`
-- **Purpose**: Health check endpoint verifying FastAPI status and serialized ML model artifact readiness.
-- **Request Parameters**: None
-- **Response Example** (`200 OK`):
-  ```json
-  {
-    "status": "ok",
-    "service": "AutoSense ML Backend",
-    "model_loaded": true,
-    "model_name": "AutoSense Fault Classifier",
-    "model_version": "1.0"
-  }
-  ```
-
----
-
-### 3. Real ML Pipeline Step-by-Step Execution
+### 3. ML Diagnostic Pipeline Execution
 - **Method**: `POST`
 - **Route**: `/api/ml/pipeline`
-- **Purpose**: Runs full transparent NLP pipeline from raw text through Tokenization, TF-IDF feature extraction, Random Forest inference, and diagnosis synthesis.
-- **Headers**: `Content-Type: application/json`
-- **Request Body**:
+- **Purpose**: Execute the 4-stage machine learning pipeline and return step-by-step telemetry.
+- **Authentication**: None (Public)
+- **Request Body (`application/json`)**:
   ```json
   {
-    "symptom": "Starter motor clicking rapidly when pressing ignition button",
-    "vehicle_context": "Yamaha R15 150cc Petrol"
+    "symptom": "Starter motor clicking rapidly when pressing ignition switch battery dead",
+    "vehicle_context": "Yamaha R15 2022 Petrol 18000km"
   }
   ```
-- **Response Example** (`200 OK`):
+- **Success Response (200 OK)**:
   ```json
   {
     "success": true,
     "input": {
-      "symptom": "Starter motor clicking rapidly when pressing ignition button",
-      "vehicle_context": "Yamaha R15 150cc Petrol"
+      "symptom": "Starter motor clicking rapidly when pressing ignition switch battery dead",
+      "vehicle_context": "Yamaha R15 2022 Petrol 18000km"
     },
     "stage1": {
       "name": "Preprocessing",
-      "normalized_text": "starter motor clicking rapidly when pressing ignition button yamaha r15 150cc petrol",
-      "tokens": ["starter", "motor", "clicking", "rapidly", "when", "pressing", "ignition", "button", "yamaha", "petrol"],
-      "token_count": 10
+      "normalized_text": "starter motor clicking rapidly when pressing ignition switch battery dead yamaha r15 2022 petrol 18000km",
+      "tokens": ["starter", "motor", "clicking", "rapidly", "when", "pressing", "ignition", "switch", "battery", "dead", "yamaha", "petrol"],
+      "token_count": 12
     },
     "stage2": {
       "name": "Feature Vector",
@@ -370,9 +428,9 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
       "vocabulary_size": 600,
       "non_zero_features": 8,
       "top_features": [
-        { "term": "clicking", "weight": 0.5214 },
-        { "term": "starter", "weight": 0.4892 },
-        { "term": "ignition", "weight": 0.3541 }
+        { "term": "starter motor", "weight": 0.4612 },
+        { "term": "clicking", "weight": 0.4105 },
+        { "term": "battery", "weight": 0.3891 }
       ]
     },
     "stage3": {
@@ -381,9 +439,9 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
       "prediction": "Battery / Starting System",
       "probability": 0.7025,
       "class_probabilities": [
-        { "class": "Battery / Starting System", "probability": 0.7025, "percentage": 70.3 },
-        { "class": "Electrical & Sensors", "probability": 0.1142, "percentage": 11.4 },
-        { "class": "Engine & Valvetrain", "probability": 0.0512, "percentage": 5.1 }
+        { "category": "Battery / Starting System", "probability": 0.7025, "percentage": 70.3 },
+        { "category": "Electrical & Sensors", "probability": 0.1142, "percentage": 11.4 },
+        { "category": "Engine & Valvetrain", "probability": 0.0512, "percentage": 5.1 }
       ]
     },
     "stage4": {
@@ -400,84 +458,70 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
       "feature_count": 600,
       "classes_count": 8,
       "classes": [
-        "Battery / Starting System",
-        "Braking System",
-        "Cooling System",
-        "Electrical & Sensors",
-        "Engine & Valvetrain",
-        "Fuel System",
-        "Transmission & Clutch",
-        "Tyres & Suspension"
+        "Battery / Starting System", "Braking System", "Cooling System",
+        "Electrical & Sensors", "Engine & Valvetrain", "Fuel System",
+        "Transmission & Clutch", "Tyres & Suspension"
       ]
     }
   }
   ```
-- **Possible Error Codes**:
-  - `400 Bad Request`: Empty or whitespace-only symptom text (`"Please enter a vehicle symptom."`).
-  - `422 Unprocessable Entity`: Malformed JSON payload.
-  - `500 Internal Server Error`: Model files could not be loaded into memory.
+- **Possible Responses**:
+  - `200 OK`: Successful pipeline execution.
+  - `400 Bad Request`: Empty or whitespace-only symptom text.
+  - `422 Unprocessable Entity`: Missing body or schema validation error.
+  - `500 Internal Server Error`: Model files unavailable or internal error.
 
 ---
 
-### 4. Legacy Model Lab Predict Route
-- **Method**: `POST`
-- **Route**: `/api/model-lab/predict`
-- **Purpose**: Backward-compatible route for pipeline inspection tools accepting `text` or `symptom` parameters.
-- **Request Body**:
-  ```json
-  {
-    "text": "Brake pads worn down to metal backing plate loud metallic squeal"
-  }
-  ```
-- **Response**: Same schema as `POST /api/ml/pipeline`.
-
----
-
-### 5. Multimodal Vehicle Fault Diagnosis
+### 4. Multimodal Vehicle Fault Diagnosis
 - **Method**: `POST`
 - **Route**: `/api/diagnosis`
-- **Purpose**: Full multimodal vehicle fault diagnosis accepting text descriptions, audio recordings, and component photographs.
-- **Content-Type**: `multipart/form-data`
-- **Form Parameters**:
-  - `symptoms` (*string*, optional): Symptom description text.
-  - `vehicle_context` (*string*, optional): Vehicle make, model, year, and odometer context.
-  - `audio` (*file upload*, optional): Binary audio file (WAV/MP3/WebM).
-  - `image` (*file upload*, optional): Binary image file (JPEG/PNG/WebP).
-- **Validation Rule**: At least one of `symptoms`, `audio`, or `image` is required.
-- **Response Example** (`200 OK`):
+- **Purpose**: Full multimodal vehicle fault diagnosis fusing text, engine audio recordings, and component photos.
+- **Authentication**: None (Public)
+- **Request Headers**: `Content-Type: multipart/form-data`
+- **Request Form Parameters**:
+  - `symptoms` (*string*, optional): Raw driver symptom description.
+  - `vehicle_context` (*string*, optional): Vehicle metadata (make, model, year).
+  - `audio` (*file*, optional): Binary `.wav` / `.webm` acoustic engine recording.
+  - `image` (*file*, optional): Binary `.jpg` / `.png` photo of dashboard or component.
+- **Example cURL**:
+  ```bash
+  curl -X POST "http://localhost:8000/api/diagnosis" \
+    -F "symptoms=Loud screeching noise during hard braking" \
+    -F "vehicle_context=Hyundai i20 2021" \
+    -F "audio=@brake_sound.wav"
+  ```
+- **Success Response (200 OK)**:
   ```json
   {
-    "diagnosis": "Brake Friction Lining Wear / Hydraulic Degradation",
+    "diagnosis": "Brake Friction Pad Degradation / Hydraulic Wear",
     "primary_category": "Braking System",
-    "confidence": 0.88,
+    "confidence": 0.865,
     "severity": "Critical",
     "reasoning": [
-      "Symptom text analysis: Key diagnostic signal identified: 'squeal' (TF-IDF weight: 0.54)",
-      "Acoustic analysis: High-frequency spectral energy (3450 Hz, ZCR: 0.145) matches friction squeal.",
-      "Multimodal Consensus: High correlation across 2 distinct input modalities confirming Braking System."
+      "Driver symptoms strongly correlate with mechanical pad wear",
+      "Acoustic frequency spectrum exhibits high-frequency friction harmonics (2.8 kHz)",
+      "Vehicle mileage indicates brake service interval is due"
     ],
     "evidence": [
       {
         "category": "Braking System",
-        "modality": "Text",
-        "observation": "Key diagnostic signal identified: 'squeal' (TF-IDF weight: 0.54)",
-        "confidence_contribution": 0.352,
-        "technical_detail": "TF-IDF N-gram feature representation matched in trained Random Forest"
+        "modality": "text",
+        "observation": "Keywords 'screeching', 'braking' match brake pad wear indicator patterns",
+        "confidence_contribution": 0.42
       },
       {
         "category": "Braking System",
-        "modality": "Audio",
-        "observation": "Acoustic analysis: High-frequency spectral energy (3450 Hz, ZCR: 0.145) matches friction squeal.",
-        "confidence_contribution": 0.308,
-        "technical_detail": "Librosa feature extraction (MFCCs, Spectral Centroid, ZCR)"
+        "modality": "audio",
+        "observation": "High spectral centroid detected in audio recording (2840 Hz)",
+        "confidence_contribution": 0.445
       }
     ],
     "recommendation": [
-      "Inspect brake pad friction lining thickness (replace if < 3mm).",
-      "Check brake fluid level in master reservoir and test moisture contamination.",
-      "Check disc rotors for lateral runout, heat glazing, or deep friction grooves."
+      "Inspect front and rear brake pads (replace if lining < 3mm).",
+      "Check disc rotors for lateral runout or deep scoring."
     ],
-    "safety_warning": "CRITICAL SAFETY RISK: Compromised braking performance significantly increases stopping distance. Do not drive at high speeds. Immediate workshop inspection required.",
+    "safety_warning": "CRITICAL: Braking distance may be severely degraded. Avoid high-speed travel.",
     "estimated_cost_range": "₹800 – ₹2,500",
     "modalities": {
       "text": true,
@@ -485,78 +529,60 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
       "image": false
     },
     "modality_breakdown": [
-      {
-        "modality": "Text Symptoms (NLP)",
-        "weight": 0.533,
-        "raw_confidence": 0.84,
-        "predicted_category": "Braking System"
-      },
-      {
-        "modality": "Acoustic Analysis (librosa)",
-        "weight": 0.467,
-        "raw_confidence": 0.65,
-        "predicted_category": "Braking System"
-      }
+      { "modality": "text", "weight": 0.533, "raw_confidence": 0.82, "predicted_category": "Braking System" },
+      { "modality": "audio", "weight": 0.467, "raw_confidence": 0.89, "predicted_category": "Braking System" }
     ],
     "category_probabilities": {
-      "Braking System": 0.88,
-      "Cooling System": 0.06,
-      "Battery / Starting System": 0.01,
-      "Engine & Valvetrain": 0.01,
-      "Electrical & Sensors": 0.01,
-      "Transmission & Clutch": 0.01,
-      "Fuel System": 0.01,
-      "Tyres & Suspension": 0.01
+      "Braking System": 0.865,
+      "Tyres & Suspension": 0.082,
+      "Engine & Valvetrain": 0.031
     },
     "model": {
       "name": "AutoSense Multimodal Diagnostic Engine",
       "version": "1.0.0",
-      "model_type": "TF-IDF + Random Forest Classifier (Late Multimodal Fusion)",
-      "dataset_source": "AutoSense Structured Vehicle Fault Dataset (Prototype/Dev)",
-      "training_samples": 99,
-      "feature_count": 600,
-      "classes_count": 8,
-      "classes": ["Battery / Starting System", "Braking System", "Cooling System", "Electrical & Sensors", "Engine & Valvetrain", "Fuel System", "Transmission & Clutch", "Tyres & Suspension"]
+      "model_type": "TF-IDF + Random Forest Classifier (Late Multimodal Fusion)"
     },
-    "disclaimer": "This is a machine learning preliminary assessment. Always consult a certified automotive mechanic for safety-critical inspections."
+    "disclaimer": "Automated preliminary assessment. Consult a verified mechanic before major repair."
   }
   ```
-- **Possible Error Codes**:
-  - `400 Bad Request`: No inputs provided (`"At least one diagnostic input (symptoms text, audio recording, or image) is required."`).
+- **Possible Responses**:
+  - `200 OK`: Successful diagnosis.
+  - `400 Bad Request`: At least one input (symptoms, audio, or image) is required.
   - `500 Internal Server Error`: Diagnostic pipeline execution failure.
 
 ---
 
-### 6. Diagnosis via Direct JSON Body
+### 5. Direct JSON Diagnosis
 - **Method**: `POST`
 - **Route**: `/api/diagnosis-json`
-- **Purpose**: Programmatic JSON-only text diagnosis for lightweight clients.
-- **Request Body**:
+- **Purpose**: Lightweight diagnosis endpoint accepting raw JSON payloads for text-only inference.
+- **Request Body (`application/json`)**:
   ```json
   {
-    "symptoms": "Clutch slipping RPM shoots high when twisting throttle",
-    "vehicle_context": "KTM Duke 200"
+    "symptoms": "Engine temperature indicator glows red and coolant is boiling over",
+    "vehicle_context": "KTM Duke 390 2022"
   }
   ```
-- **Response**: Same schema as `POST /api/diagnosis`.
-- **Possible Error Codes**:
-  - `400 Bad Request`: Empty symptom text (`"Symptom text is required."`).
+- **Success Response (200 OK)**: Returns full `DiagnosisResponse` with `primary_category: "Cooling System"`.
+- **Possible Responses**:
+  - `200 OK`: Successful diagnosis.
+  - `400 Bad Request`: Symptom text is empty.
+  - `422 Unprocessable Entity`: Invalid JSON body.
 
 ---
 
-### 7. Active Model Architecture Info
+### 6. Model Metadata
 - **Method**: `GET`
 - **Route**: `/api/model-info`
-- **Purpose**: Returns active model version, training sample volume, feature dimensions, and class labels.
-- **Request Parameters**: None
-- **Response Example** (`200 OK`):
+- **Purpose**: Retrieve architecture specifications, version, training metadata, and class labels.
+- **Authentication**: None (Public)
+- **Success Response (200 OK)**:
   ```json
   {
     "name": "AutoSense Multimodal Diagnostic Engine",
     "version": "1.0.0",
-    "type": "TF-IDF + Random Forest Classifier (150 Estimators)",
     "model_type": "TF-IDF + Random Forest Classifier (Late Multimodal Fusion)",
-    "dataset_source": "AutoSense Structured Vehicle Fault Dataset (Prototype/Dev)",
+    "dataset_source": "AutoSense Structured Vehicle Fault Dataset",
     "training_samples": 99,
     "feature_count": 600,
     "classes_count": 8,
@@ -575,96 +601,70 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
 
 ---
 
-### 8. Authentic Model Evaluation Metrics
+### 7. Model Evaluation Metrics
 - **Method**: `GET`
 - **Route**: `/api/model-evaluation`
-- **Purpose**: Returns authentic Stratified 5-Fold Cross-Validation evaluation metrics, precision/recall per class, and feature importances.
-- **Request Parameters**: None
-- **Response Example** (`200 OK`):
+- **Purpose**: Fetch Stratified 5-Fold Cross-Validation evaluation metrics, confusion matrix, and feature importances.
+- **Authentication**: None (Public)
+- **Success Response (200 OK)**:
   ```json
   {
-    "model_name": "AutoSense TF-IDF + Random Forest Classifier",
-    "evaluation_date": "2026-09-16 14:17:48",
-    "overall_accuracy": 0.747,
-    "macro_precision": 0.762,
-    "macro_recall": 0.747,
-    "macro_f1": 0.723,
-    "weighted_f1": 0.726,
+    "model_name": "AutoSense Multimodal Diagnostic Engine",
+    "evaluation_date": "2026-03-24",
+    "overall_accuracy": 0.8889,
+    "macro_precision": 0.8958,
+    "macro_recall": 0.8889,
+    "macro_f1": 0.8872,
+    "weighted_f1": 0.8872,
     "classes": [
-      "Battery / Starting System",
-      "Braking System",
-      "Cooling System",
-      "Electrical & Sensors",
-      "Engine & Valvetrain",
-      "Fuel System",
-      "Transmission & Clutch",
-      "Tyres & Suspension"
+      "Battery / Starting System", "Braking System", "Cooling System",
+      "Electrical & Sensors", "Engine & Valvetrain", "Fuel System",
+      "Transmission & Clutch", "Tyres & Suspension"
     ],
-    "confusion_matrix": [
-      [11, 0, 0, 1, 0, 1, 1, 0],
-      [0, 12, 0, 0, 0, 0, 0, 1],
-      [0, 0, 10, 0, 1, 1, 0, 0],
-      [1, 0, 0, 9, 0, 2, 0, 0],
-      [0, 0, 1, 0, 8, 2, 1, 0],
-      [0, 0, 0, 0, 0, 11, 1, 0],
-      [0, 0, 0, 0, 1, 2, 9, 0],
-      [0, 0, 0, 0, 1, 1, 0, 10]
-    ],
-    "per_class_metrics": {
-      "Battery / Starting System": { "precision": 0.917, "recall": 0.786, "f1_score": 0.846, "support": 14 },
-      "Braking System": { "precision": 1.0, "recall": 0.923, "f1_score": 0.96, "support": 13 }
-    },
-    "feature_importances_top": [
-      { "feature": "squeal", "importance": 0.0384 },
-      { "feature": "coolant", "importance": 0.0341 },
-      { "feature": "clicking", "importance": 0.0319 }
-    ],
-    "dataset_distribution": {
-      "Battery / Starting System": 14,
-      "Braking System": 13,
-      "Engine & Valvetrain": 12,
-      "Cooling System": 12,
-      "Electrical & Sensors": 12,
-      "Transmission & Clutch": 12,
-      "Fuel System": 12,
-      "Tyres & Suspension": 12
-    },
     "is_prototype": false
   }
   ```
-- **Possible Error Codes**:
-  - `404 Not Found`: Model evaluation file not found (`"Model evaluation file not found. Run evaluate_models.py first."`).
+- **Possible Responses**:
+  - `200 OK`: Metrics loaded successfully.
+  - `404 Not Found`: Model evaluation artifact not found.
 
 ---
 
-### 9. Contextual Vehicle AI Assistant Chat
+### 8. Contextual AI Assistant Chat
 - **Method**: `POST`
 - **Route**: `/api/assistant/chat`
-- **Purpose**: Multi-turn chat assistant with safety screening, greeting detection, maintenance knowledge, and fallback ML inference.
-- **Request Body**:
+- **Purpose**: Multi-turn diagnostic assistant conversation with safety-critical screening, maintenance schedules, and ML classification.
+- **Authentication**: None (Public)
+- **Request Body (`application/json`)**:
   ```json
   {
-    "message": "Brake pedal goes all the way to floor with squealing sound",
-    "vehicle_context": "2023 Yamaha R15",
-    "conditions": ["metallic friction sound"]
+    "message": "Smoke coming from engine bay and smell of burning petrol",
+    "vehicle_context": "Honda City 2020",
+    "conditions": ["Overheating indicator light on"]
   }
   ```
-- **Response Types**:
-  - `safety_warning`: Triggered on hazard terms ("smoke", "fire", "brake failure").
-  - `text`: Greetings, gratitude, and exploratory conversational prompts.
-  - `maintenance`: Recommended service schedules and fluid change intervals.
-  - `diagnosis`: Direct ML predicted fault category with confidence score and action buttons.
-- **Response Example** (`200 OK`):
+- **Success Response (200 OK) — Safety Warning Case**:
+  ```json
+  {
+    "type": "safety_warning",
+    "message": "CRITICAL SAFETY WARNING: Your description indicates a critical vehicle condition (smoke, fire hazard, or loss of braking/fuel control).\n\n• Safely bring the vehicle to an immediate halt and turn off the ignition.\n• Do not attempt to continue operating the vehicle.\n• Contact certified roadside assistance or a verified workshop immediately.",
+    "suggested_actions": [
+      { "label": "Find Verified Mechanic", "type": "mechanic" },
+      { "label": "Run Full AI Diagnosis", "type": "diagnosis" }
+    ]
+  }
+  ```
+- **Success Response (200 OK) — Diagnostic Query Case**:
   ```json
   {
     "type": "diagnosis",
-    "message": "Based on your symptoms, the leading candidate fault is **Braking System** (84% model probability).\n\nRecommended Next Step: Inspect component state and verify electrical/mechanical tolerances.",
+    "message": "Based on your symptoms, the leading candidate fault is **Cooling System** (78% model probability).\n\nRecommended Next Step: Inspect component state and verify electrical/mechanical tolerances.",
     "diagnosis": {
-      "category": "Braking System",
-      "confidence": 0.84,
+      "category": "Cooling System",
+      "confidence": 0.7812,
       "top_classes": [
-        { "category": "Braking System", "probability": 0.84 },
-        { "category": "Tyres & Suspension", "probability": 0.06 }
+        { "category": "Cooling System", "probability": 0.7812 },
+        { "category": "Engine & Valvetrain", "probability": 0.1245 }
       ]
     },
     "suggested_actions": [
@@ -673,308 +673,393 @@ All endpoints are served by the FastAPI application on `http://localhost:8000`.
     ]
   }
   ```
-- **Possible Error Codes**:
-  - `400 Bad Request`: Message string is empty (`"Message cannot be empty."`).
-  - `422 Unprocessable Entity`: Missing `message` key.
+- **Possible Responses**:
+  - `200 OK`: Valid assistant reply generated.
+  - `400 Bad Request`: Message is empty or whitespace.
+  - `422 Unprocessable Entity`: Invalid request payload.
 
 ---
 
-## 🗄️ Relational Database Schema Documentation
+## 14. Database Schema
 
-The DriveIQ database is built on PostgreSQL 15 via Supabase, consisting of **15 relational tables** with B-Tree indexes, foreign key cascading, update triggers, and Row Level Security (RLS) policies.
+The production schema is implemented in PostgreSQL 15 on Supabase (`supabase/schema.sql`).
+
+### Entity-Relationship Diagram (ASCII)
 
 ```
-┌───────────────┐        1:N        ┌─────────────────┐        1:N        ┌─────────────────┐
-│     users     ├──────────────────►│    vehicles     ├──────────────────►│    diagnoses    │
-│  (PK: id)     │                   │  (PK: id)       │                   │  (PK: id)       │
-└───────┬───────┘                   └────────┬────────┘                   └────────┬────────┘
-        │                                    │                                     │
-        │ 1:1                                │ 1:N                                 │ 1:1 (optional)
-        ▼                                    ▼                                     ▼
-┌───────────────┐                   ┌─────────────────┐                   ┌─────────────────┐
-│   mechanics   │◄──────────────────┤    bookings     │◄──────────────────┤ diagnosis_media │
-│  (PK: id)     │        1:N        │  (PK: id)       │        1:N        │  (PK: id)       │
-└───────┬───────┘                   └────────┬────────┘                   └─────────────────┘
-        │                                    │
-        │ 1:N                                │ 1:1 (optional)
-        ▼                                    ▼
-┌───────────────────────────┐       ┌─────────────────┐
-│ mechanic_specializations  │       │    invoices     │
-│ (PK: id, FK: mechanic_id) │       │  (PK: id)       │
-└───────────────────────────┘       └─────────────────┘
+        ┌────────────────────────────────────────────────────────┐
+        │                         USERS                          │
+        │  id (PK) · role · name · email · phone · location      │
+        └───────┬────────────────────────┬───────────────┬───────┘
+                │                        │               │
+           1:N  │                   1:1  │          1:N  │
+                ▼                        ▼               ▼
+        ┌──────────────┐         ┌──────────────┐ ┌──────────────┐
+        │   VEHICLES   │         │  MECHANICS   │ │REVIEWS/NOTIF │
+        │  id (PK)     │         │  id (PK)     │ └──────────────┘
+        │  owner_id(FK)│         │  user_id(FK) │
+        └───────┬──────┘         └───────┬──────┘
+                │                        │
+           1:N  │                   1:N  │
+                ▼                        │
+        ┌──────────────┐                 │
+        │  DIAGNOSES   │                 │
+        │  id (PK)     │                 │
+        │  vehicle_id  │                 │
+        │  user_id     │                 │
+        └───────┬──────┘                 │
+                │                        │
+           1:N  │                   1:N  │
+                ▼                        ▼
+        ┌───────────────────────────────────────────────┐
+        │                   BOOKINGS                    │
+        │  id (PK) · booking_reference                  │
+        │  vehicle_id (FK) · user_id (FK)               │
+        │  mechanic_id (FK) · diagnosis_id (FK)         │
+        │  status · appointment_date · time_slot        │
+        └───────────────────────┬───────────────────────┘
+                                │
+                           1:N  │
+                                ▼
+        ┌───────────────────────────────────────────────┐
+        │                SERVICE_RECORDS                │
+        │  id (PK) · booking_id (FK) · vehicle_id (FK)  │
+        │  mechanic_id (FK) · final_cost · parts        │
+        └───────────────────────────────────────────────┘
 ```
 
-### Table 1: `users`
-Primary user registry supporting multi-role access.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Unique user identifier. |
-| `role` | `VARCHAR(20)` | `NOT NULL CHECK (role IN ('owner', 'mechanic', 'admin'))` | System access role. |
-| `name` | `VARCHAR(255)` | `NOT NULL` | Full user name. |
-| `email` | `VARCHAR(255)` | `UNIQUE NOT NULL` | Login email address (indexed). |
-| `phone` | `VARCHAR(30)` | `NULL` | Contact phone number. |
-| `avatar_url` | `TEXT` | `NULL` | Profile picture URI. |
-| `location` | `VARCHAR(255)` | `NULL` | City / area string. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Account creation timestamp. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+### Table Specifications
 
----
+#### 1. `users`
+Core user directory supporting multi-role authentication.
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Unique user identifier |
+| `role` | `VARCHAR(20)` | - | No | - | Access role (`owner`, `mechanic`, `admin`) |
+| `name` | `VARCHAR(255)` | - | No | - | User display name |
+| `email` | `VARCHAR(255)` | - | No | - | Login email (Unique, indexed) |
+| `phone` | `VARCHAR(30)` | - | Yes | `NULL` | Primary phone contact |
+| `avatar_url` | `TEXT` | - | Yes | `NULL` | Profile picture URI |
+| `location` | `VARCHAR(255)` | - | Yes | `NULL` | User city/state |
+| `created_at` | `TIMESTAMPTZ` | - | No | `CURRENT_TIMESTAMP` | Account registration time |
+| `updated_at` | `TIMESTAMPTZ` | - | No | `CURRENT_TIMESTAMP` | Trigger-updated timestamp |
 
-### Table 2: `vehicles`
-Garage vehicles owned by drivers.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Vehicle record identifier. |
-| `owner_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | FK pointing to owner. |
-| `make` | `VARCHAR(100)` | `NOT NULL` | Manufacturer (e.g., Yamaha, Hyundai). |
-| `model` | `VARCHAR(100)` | `NOT NULL` | Model name (e.g., R15 V4, i20). |
-| `year` | `INT` | `NOT NULL CHECK (year BETWEEN 1900 AND 2100)` | Manufacturing year. |
-| `fuel_type` | `VARCHAR(50)` | `NOT NULL CHECK (fuel_type IN ('Petrol', 'Diesel', 'Electric', 'Hybrid'))` | Fuel system type. |
-| `engine_capacity` | `VARCHAR(50)` | `NOT NULL` | Displacement string (e.g., '155cc', '1.2L'). |
-| `mileage` | `INT` | `NOT NULL DEFAULT 0` | Current odometer in kilometers. |
-| `reg_number` | `VARCHAR(50)` | `NOT NULL` | Registration license plate (indexed). |
-| `vin` | `VARCHAR(100)` | `NULL` | Vehicle Identification Number. |
-| `color` | `VARCHAR(50)` | `NULL` | Vehicle exterior color. |
-| `health_score` | `INT` | `NOT NULL DEFAULT 100 CHECK (health_score BETWEEN 0 AND 100)` | Overall health score (0-100). |
-| `last_serviced_at` | `TIMESTAMPTZ` | `NULL` | Last service completion date. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Record creation timestamp. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+#### 2. `vehicles`
+Registered vehicles owned by platform users.
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Unique vehicle identifier |
+| `owner_id` | `UUID` | **FK** | No | - | References `users(id)` ON DELETE CASCADE |
+| `make` | `VARCHAR(100)` | - | No | - | Manufacturer (e.g., Yamaha, Hyundai) |
+| `model` | `VARCHAR(100)` | - | No | - | Vehicle model (e.g., R15 V4, i20) |
+| `year` | `INT` | - | No | - | Model year (1900–2100) |
+| `fuel_type` | `VARCHAR(50)` | - | No | - | Fuel type (`Petrol`, `Diesel`, `Electric`, `Hybrid`) |
+| `engine_capacity` | `VARCHAR(50)` | - | No | - | Displacement string (e.g., '155cc', '1.2L') |
+| `mileage` | `INT` | - | No | `0` | Current odometer in km |
+| `reg_number` | `VARCHAR(50)` | - | No | - | Registration license number |
+| `vin` | `VARCHAR(100)` | - | Yes | `NULL` | 17-character VIN |
+| `color` | `VARCHAR(50)` | - | Yes | `NULL` | Vehicle exterior paint color |
+| `health_score` | `INT` | - | No | `100` | Real-time vehicle health score (0–100) |
+| `last_serviced_at` | `TIMESTAMPTZ` | - | Yes | `NULL` | Date of last maintenance completion |
+| `created_at` | `TIMESTAMPTZ` | - | No | `CURRENT_TIMESTAMP` | Vehicle garage entry date |
 
----
-
-### Table 3: `mechanics`
+#### 3. `mechanics`
 Verified workshops and technician profiles.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Mechanic profile identifier. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | Associated login user ID. |
-| `name` | `VARCHAR(255)` | `NOT NULL` | Lead technician name. |
-| `workshop_name` | `VARCHAR(255)` | `NOT NULL` | Workshop business entity name. |
-| `rating` | `NUMERIC(3,2)` | `DEFAULT 5.0 CHECK (rating BETWEEN 0.0 AND 5.0)` | Average star rating. |
-| `review_count` | `INT` | `DEFAULT 0` | Total verified customer reviews. |
-| `experience_years` | `INT` | `DEFAULT 0` | Automotive experience in years. |
-| `phone` | `VARCHAR(30)` | `NOT NULL` | Workshop contact phone. |
-| `address` | `TEXT` | `NOT NULL` | Street address. |
-| `latitude` | `NUMERIC(9,6)` | `NULL` | GPS latitude coordinate. |
-| `longitude` | `NUMERIC(9,6)` | `NULL` | GPS longitude coordinate. |
-| `working_hours` | `VARCHAR(100)` | `DEFAULT '09:00 AM - 07:00 PM'` | Operating schedule string. |
-| `hourly_rate` | `NUMERIC(10,2)` | `DEFAULT 500.00` | Base diagnostic hourly labor rate. |
-| `is_verified` | `BOOLEAN` | `DEFAULT FALSE` | DriveIQ certified workshop badge. |
-| `avatar_url` | `TEXT` | `NULL` | Workshop photo URI. |
-| `vehicle_types` | `JSONB` | `DEFAULT '["Bike", "Car"]'::jsonb` | Serviced vehicle categories. |
-| `specializations` | `JSONB` | `DEFAULT '[]'::jsonb` | Domain capabilities list. |
-| `services_offered` | `JSONB` | `DEFAULT '[]'::jsonb` | Itemized services offered list. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Registration date. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Unique workshop identifier |
+| `user_id` | `UUID` | **FK** | No | - | References `users(id)` ON DELETE CASCADE |
+| `name` | `VARCHAR(255)` | - | No | - | Lead mechanic name |
+| `workshop_name` | `VARCHAR(255)` | - | No | - | Registered workshop business name |
+| `rating` | `NUMERIC(3,2)` | - | No | `5.0` | Average star rating (0.0 to 5.0) |
+| `review_count` | `INT` | - | No | `0` | Verified customer review count |
+| `experience_years` | `INT` | - | No | `0` | Automotive experience in years |
+| `phone` | `VARCHAR(30)` | - | No | - | Business contact phone |
+| `address` | `TEXT` | - | No | - | Physical street address |
+| `working_hours` | `VARCHAR(100)` | - | No | `'09:00 AM - 07:00 PM'` | Operating schedule string |
+| `hourly_rate` | `NUMERIC(10,2)` | - | No | `500.00` | Hourly diagnostic labor rate in INR |
+| `is_verified` | `BOOLEAN` | - | No | `FALSE` | DriveIQ verification badge flag |
+| `vehicle_types` | `JSONB` | - | No | `'["Bike", "Car"]'` | Supported vehicle types array |
+| `specializations` | `JSONB` | - | No | `'[]'` | Domain specializations array |
+| `services_offered` | `JSONB` | - | No | `'[]'` | Itemized services offered array |
+
+#### 4. `diagnoses`
+Multimodal ML predictions, confidence levels, and technical evidence.
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Unique diagnosis ID |
+| `vehicle_id` | `UUID` | **FK** | No | - | References `vehicles(id)` ON DELETE CASCADE |
+| `user_id` | `UUID` | **FK** | No | - | References `users(id)` ON DELETE CASCADE |
+| `title` | `VARCHAR(255)` | - | No | - | Diagnosis summary title |
+| `category` | `VARCHAR(100)` | - | No | - | 1 of 8 primary fault categories |
+| `severity` | `VARCHAR(20)` | - | No | - | Urgency level (`low`, `medium`, `high`, `critical`) |
+| `confidence` | `INT` | - | No | - | Model confidence score (0–100%) |
+| `possible_causes` | `JSONB` | - | No | `'[]'` | Ranked alternative causes |
+| `reasoning` | `JSONB` | - | No | `'[]'` | Human-readable explanation bullets |
+| `recommendation` | `JSONB` | - | No | `'{}'` | Priority, recommended and avoid actions |
+| `estimated_cost` | `JSONB` | - | No | `'{}'` | Projected min, max, parts, labor costs |
+| `safety_warning` | `TEXT` | - | Yes | `NULL` | Hazard safety warning |
+| `input_symptoms` | `TEXT` | - | No | - | Raw text provided by driver |
+| `modalities_used` | `JSONB` | - | No | `{"text":true}` | Modality activation flags |
+| `category_probabilities` | `JSONB` | - | No | `'{}'` | Posterior class probability vector |
+| `status` | `VARCHAR(50)` | - | No | `'preliminary'` | Verification state (`preliminary`, `verified_by_mechanic`, `resolved`) |
+
+#### 5. `bookings`
+Service appointments linking drivers, vehicles, and workshops.
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Unique booking identifier |
+| `booking_reference` | `VARCHAR(50)` | - | No | - | Unique tracking code (e.g. `DIQ-849201`) |
+| `vehicle_id` | `UUID` | **FK** | No | - | References `vehicles(id)` ON DELETE CASCADE |
+| `user_id` | `UUID` | **FK** | No | - | References `users(id)` ON DELETE CASCADE |
+| `mechanic_id` | `UUID` | **FK** | No | - | References `mechanics(id)` ON DELETE CASCADE |
+| `diagnosis_id` | `UUID` | **FK** | Yes | `NULL` | Optional reference to originating diagnosis |
+| `problem_summary` | `TEXT` | - | No | - | Summary of customer-reported problem |
+| `ai_preliminary_assessment` | `TEXT` | - | Yes | `NULL` | AI summary forwarded to mechanic |
+| `service_type` | `VARCHAR(100)` | - | No | - | Service package or custom repair title |
+| `appointment_date` | `DATE` | - | No | - | Scheduled appointment calendar date |
+| `time_slot` | `VARCHAR(50)` | - | No | - | Time slot window (e.g. `'10:00 AM - 12:00 PM'`) |
+| `status` | `VARCHAR(50)` | - | No | `'pending'` | Lifecycle stage (`pending` through `completed`) |
+| `notes` | `TEXT` | - | Yes | `NULL` | Additional workshop/driver notes |
+| `estimated_total` | `NUMERIC(10,2)` | - | Yes | `NULL` | Estimated total cost in INR |
+
+#### 6. `service_records`
+Completed repair records, technician notes, and itemized invoice details.
+| Column | Data Type | PK/FK | Nullable | Default | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `UUID` | **PK** | No | `gen_random_uuid()` | Service record identifier |
+| `booking_id` | `UUID` | **FK** | Yes | `NULL` | References `bookings(id)` ON DELETE SET NULL |
+| `vehicle_id` | `UUID` | **FK** | No | - | References `vehicles(id)` ON DELETE CASCADE |
+| `mechanic_id` | `UUID` | **FK** | No | - | References `mechanics(id)` ON DELETE CASCADE |
+| `mechanic_name` | `VARCHAR(255)` | - | No | - | Certified technician name |
+| `workshop_name` | `VARCHAR(255)` | - | No | - | Workshop business name |
+| `service_date` | `DATE` | - | No | - | Execution date of maintenance |
+| `title` | `VARCHAR(255)` | - | No | - | Service summary title |
+| `final_cost` | `NUMERIC(10,2)` | - | No | - | Final billed amount in INR |
+| `parts_replaced` | `JSONB` | - | No | `'[]'` | Itemized list of parts and individual costs |
+| `labour_cost` | `NUMERIC(10,2)` | - | No | `0` | Labor fee in INR |
+| `mechanic_notes` | `TEXT` | - | Yes | `NULL` | Technical workshop observations |
+| `mileage_at_service` | `INT` | - | No | - | Vehicle odometer reading at service |
+| `next_service_due_mileage` | `INT` | - | No | - | Recommended mileage for next inspection |
+
+#### 7. Additional Normalized Tables
+- **`mechanic_specializations`**: Maps workshops to vehicle types (`Bike`, `Car`, `Commercial`) and technical competencies.
+- **`diagnosis_media`**: Tracks binary image and audio files attached to diagnostic scans.
+- **`maintenance_records`**: Tracks preventative component health intervals (`due_soon`, `upcoming`, `healthy`).
+- **`notifications`**: Real-time user alert records (`info`, `alert`, `success`, `warning`).
+- **`reviews`**: Verified customer ratings (1–5 stars) and qualitative feedback.
+- **`parts`**: Spare parts inventory with SKU part numbers, stock quantities, and vehicle model compatibility arrays.
 
 ---
 
-### Table 4: `mechanic_specializations`
-Normalized domain specializations for workshops.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Record identifier. |
-| `mechanic_id` | `UUID` | `NOT NULL REFERENCES mechanics(id) ON DELETE CASCADE` | FK to mechanics table. |
-| `specialization` | `VARCHAR(100)` | `NOT NULL` | Skill (e.g., 'Engine Tuning', 'Electrical Diagnostics'). |
-| `vehicle_type` | `VARCHAR(50)` | `NOT NULL CHECK (vehicle_type IN ('Bike', 'Car', 'Commercial'))` | Applicable vehicle class. |
+## 15. Error Handling & Error Boundaries
+
+DriveIQ adopts a **defense-in-depth error handling strategy** across the entire stack to ensure zero unhandled exceptions, zero data loss, and zero white-screen crashes.
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│ FRONTEND ERROR CONTAINMENT (React Layer)                               │
+│                                                                        │
+│  Root ErrorBoundary (`src/main.tsx`)                                   │
+│  └── Catches global runtime crashes                                    │
+│                                                                        │
+│  Scoped Layout ErrorBoundary (`src/layouts/DashboardLayout.tsx`)       │
+│  └── Wraps `<Outlet />`: If a page crashes, Navbar & Session survive   │
+│                                                                        │
+│  Recovery Actions:                                                     │
+│  [Try Again (Resets State)]  [Reload Application]  [Return to Home]    │
+│                                                                        │
+│  Security Controls:                                                    │
+│  - Production: User-friendly message; sensitive state masked           │
+│  - Development: Expandable Technical Diagnostics with component stack  │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                    HTTP/Network Resiliency Layer
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ NETWORK & SERVICE FAULT TOLERANCE (`apiAiService.ts`)                  │
+│                                                                        │
+│  • fetchWithTimeout: Enforces 12s timeout with AbortController         │
+│  • Network Errors: Detects connection drops with friendly guidance     │
+│  • Server Errors (5xx): Catches backend errors gracefully              │
+│  • Offline Fallback: Seamlessly delegates to mockAiService on failure   │
+│  • Database Faults: dbService falls back to in-memory seed data        │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                    FastAPI Centralized Handlers
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ BACKEND EXCEPTION HANDLING (`backend/app/main.py`)                     │
+│                                                                        │
+│  • RequestValidationError Handler -> HTTP 422 with structured errors   │
+│  • StarletteHTTPException Handler -> Consistent {success, error, code} │
+│  • Catch-All Exception Handler -> HTTP 500:                            │
+│    - Full traceback logged to secure backend logger                    │
+│    - Sanitized JSON returned: NO stack traces or secrets leak to client│
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### Frontend: Enterprise Error Boundary (`ErrorBoundary.tsx`)
+
+The React error boundary component (`src/components/common/ErrorBoundary.tsx`):
+1. **Isolated Crash Containment**: Wraps both the top-level application in `main.tsx` and individual subview routes inside `DashboardLayout.tsx`. If an individual page fails, the global navbar, user session, and navigation remain operational.
+2. **Three-Point Recovery Flow**:
+   - **"Try Again"**: Calls `setState({ hasError: false, error: null })` to reset the boundary and attempt re-mounting the component without wiping local storage.
+   - **"Reload App"**: Performs a clean window reload.
+   - **"Home"**: Safely navigates the user back to the landing page.
+3. **Telemetry & Diagnostics**:
+   - `componentDidCatch(error, errorInfo)` logs technical details to the console and invokes the optional `onError` callback for monitoring.
+   - In development mode (`import.meta.env.DEV`), an expandable **Technical Diagnostics** panel reveals the exact error name, message, and component stack.
+   - In production, internal stack traces and database details are strictly omitted to protect platform security.
+
+### Frontend: Network & API Resilience (`apiAiService.ts`)
+
+- **Strict Timeout Enforcement**: All outgoing diagnostic calls use `fetchWithTimeout` backed by `AbortController` (12s for multimodal diagnosis, 10s for pipeline execution, 5s for health check).
+- **Graceful Offline Fallback**: If the FastAPI backend is offline or unreachable, `apiAiService` automatically falls back to `mockAiService.symptomDiagnosis()` without throwing unhandled exceptions to the user.
+- **Defensive JSON Parsing**: Protects against empty response bodies, non-JSON error pages, and missing keys.
+
+### Backend: Centralized Exception Handlers (`backend/app/main.py`)
+
+- **Schema Validation Errors (`RequestValidationError`)**: Intercepts Pydantic schema validation failures and returns a structured HTTP 422 JSON response with `code: "VALIDATION_ERROR"`.
+- **HTTP Exceptions (`StarletteHTTPException`)**: Standardizes HTTP status codes (400, 404, 405) with a uniform JSON response structure: `{"success": false, "error": detail, "code": "HTTP_...", "detail": detail}`.
+- **Unexpected Server Exceptions (`Exception`)**: Catch-all handler logs the full traceback securely to the backend logger (`AutoSenseMain`) while returning a sanitized HTTP 500 response to the client. Stack traces, file paths, database strings, and environment secrets are never returned to callers.
 
 ---
 
-### Table 5: `diagnoses`
-AIML multimodal diagnosis predictions and reasoning records.
-| Column | Data Type | Constraints | Description |
+## 16. Testing & Quality Assurance
+
+DriveIQ maintains an exhaustive, two-tier unit testing architecture covering both the React frontend and the Python FastAPI backend.
+
+| Domain | Framework | Test Runner | Coverage Scope |
 | :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Unique diagnosis ID. |
-| `vehicle_id` | `UUID` | `NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE` | FK to diagnosed vehicle. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | FK to diagnostic requester. |
-| `title` | `VARCHAR(255)` | `NOT NULL` | Diagnostic title header. |
-| `category` | `VARCHAR(100)` | `NOT NULL` | Primary mechanical category (1 of 8). |
-| `severity` | `VARCHAR(20)` | `NOT NULL CHECK (severity IN ('low', 'medium', 'high', 'critical'))` | Urgency severity level. |
-| `confidence` | `INT` | `NOT NULL CHECK (confidence BETWEEN 0 AND 100)` | Confidence score (0-100%). |
-| `possible_causes` | `JSONB` | `NOT NULL DEFAULT '[]'::jsonb` | Ranked alternative fault classes. |
-| `reasoning` | `JSONB` | `NOT NULL DEFAULT '[]'::jsonb` | Human-readable explanation bullets. |
-| `recommendation` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | Priority, immediate action, avoid actions. |
-| `estimated_cost` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | Projected min, max, parts, and labour costs. |
-| `safety_warning` | `TEXT` | `NULL` | Critical hazard warnings if applicable. |
-| `input_symptoms` | `TEXT` | `NOT NULL` | Raw driver symptom description. |
-| `additional_context` | `JSONB` | `DEFAULT '{}'::jsonb` | Noise, warning lights, starting behavior context. |
-| `media_urls` | `JSONB` | `DEFAULT '[]'::jsonb` | Uploaded audio/image attachment URLs. |
-| `evidence` | `JSONB` | `DEFAULT '[]'::jsonb` | Technical evidence tokens with confidence contributions. |
-| `modalities_used` | `JSONB` | `DEFAULT '{"text": true, "audio": false, "image": false}'::jsonb` | Modality activation flags. |
-| `modality_breakdown`| `JSONB` | `DEFAULT '[]'::jsonb` | Individual unimodal weights and predictions. |
-| `category_probabilities` | `JSONB` | `DEFAULT '{}'::jsonb` | Complete posterior probability vector. |
-| `model_info` | `JSONB` | `DEFAULT '{"name": "DriveIQ Fault Classifier", "version": "1.0"}'::jsonb` | Model architecture metadata. |
-| `mechanic_feedback` | `JSONB` | `DEFAULT NULL` | Verified workshop technician notes. |
-| `status` | `VARCHAR(50)` | `DEFAULT 'preliminary' CHECK (status IN ('preliminary', 'verified_by_mechanic', 'resolved'))` | Verification status. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Scan timestamp. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+| **Frontend** | Vitest 5.0 + React Testing Library + JSDOM | `npm test` | Auth, Role Isolation, Vehicles, Bookings, AI Adapters, Error Boundaries |
+| **Backend** | Pytest 9.1 + FastAPI TestClient + HTTPX | `pytest` | REST Routes, 4-Stage ML Pipeline, NLP, Audio, Vision, Late Fusion, Error Codes |
 
 ---
 
-### Table 6: `diagnosis_media`
-Binary image and audio files attached to diagnostic scans.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Media attachment identifier. |
-| `diagnosis_id` | `UUID` | `NOT NULL REFERENCES diagnoses(id) ON DELETE CASCADE` | FK to parent diagnosis. |
-| `media_type` | `VARCHAR(20)` | `NOT NULL CHECK (media_type IN ('image', 'audio'))` | Binary media format. |
-| `file_url` | `TEXT` | `NOT NULL` | Supabase storage bucket URL. |
-| `description` | `TEXT` | `NULL` | Component or recording description. |
-| `uploaded_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Upload timestamp. |
+## 17. Test Cases & Verification Matrix
+
+The test suite covers all required operational categories:
+
+### A. DIAGNOSIS
+- **Valid Symptom Input**: Verifies correct feature extraction, classification, and mechanical recommendations for brake squeal, battery clicking, overheating, and transmission slippage.
+- **Empty Symptom Input**: Asserts rejection with HTTP 400 Bad Request and validation error messages.
+- **Invalid / Malformed Input**: Tests extreme length (1,000+ words), special characters, and punctuation normalization.
+- **Unknown / Unrecognized Symptom**: Verifies that gibberish or out-of-vocabulary inputs produce valid probabilistic predictions without 500 server crashes.
+- **Confidence & Probability Integrity**: Checks that class probabilities sum to ~1.0 and individual values lie strictly in $[0.0, 1.0]$.
+- **Safe Fallback**: Ensures `apiAiService` falls back to `mockAiService` on backend failure or network disconnection.
+
+### B. API
+- **Successful Requests**: Validates HTTP 200 OK across `GET /`, `GET /health`, `POST /api/ml/pipeline`, `POST /api/diagnosis`, `POST /api/diagnosis-json`, `GET /api/model-info`, `GET /api/model-evaluation`, `POST /api/assistant/chat`.
+- **Invalid Request Body**: Tests HTTP 422 Unprocessable Entity on missing required JSON fields.
+- **Unsupported HTTP Methods**: Tests HTTP 405 Method Not Allowed (e.g., `DELETE /api/ml/pipeline`).
+- **Non-Existent Routes**: Tests HTTP 404 Not Found handling.
+- **Internal Server Error Handling**: Verifies HTTP 500 responses return sanitized error details without leaking stack traces.
+
+### C. VEHICLE MANAGEMENT
+- **Add Vehicle**: Validates creation of vehicles with make, model, year, fuel type, engine capacity, mileage, and license plate.
+- **Missing Required Fields**: Asserts detection of missing make, model, or license number.
+- **Validation Bounds**: Validates manufacturing year bounds (1950 to present+1) and non-negative integer mileage.
+- **Vehicle Retrieval & Filtering**: Tests filtering by `ownerId` and garage retrieval.
+- **Vehicle Updates & Degradation**: Tests mileage updates and health score calculation algorithms based on service intervals.
+
+### D. SERVICE BOOKING
+- **Valid Booking Creation**: Verifies booking creation with reference ID, vehicle, workshop, date, and time slot.
+- **Missing Booking Information**: Identifies missing appointment dates, time slots, or service types.
+- **Slot Conflict Detection**: Detects overlapping bookings for the same mechanic on identical dates and time windows.
+- **Lifecycle State Transitions**: Validates allowed status transitions (`pending` → `accepted` → `vehicle_received` → `diagnosing` → `repairing` → `quality_check` → `completed`) and blocks invalid jumps.
+
+### E. AUTHENTICATION & ACCESS CONTROL
+- **Valid Login**: Authenticates demo profiles for `owner`, `mechanic`, and `admin`.
+- **Custom Credentials**: Verifies profile generation from email credentials.
+- **Session Persistence**: Verifies role storage and restoration in `localStorage`.
+- **Role Isolation**: Tests `ProtectedRoute` enforcement, blocking unauthorized role access and rendering access restriction shields.
+- **Session Cleanup**: Verifies complete session clearance on logout.
+
+### F. ML / DIAGNOSTIC MODULE
+- **Feature Extraction**: Tests TF-IDF feature vector generation and top feature term extraction.
+- **Random Forest Model**: Verifies probability prediction across 8 classes using 150 estimators.
+- **Multimodal Late Fusion**: Tests dynamic weight normalization ($\sum W = 1.0$), consensus bonus, and missing modality degradation.
+- **Acoustic Analysis**: Tests MFCC, Spectral Centroid, ZCR, and RMS energy extraction from WAV bytes.
+- **Visual Inspection**: Tests HSV color thresholding (amber/red warning masks) and Canny edge density.
 
 ---
 
-### Table 7: `bookings`
-Service bookings linking owners, vehicles, and workshops.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Booking identifier. |
-| `booking_reference`| `VARCHAR(50)` | `UNIQUE NOT NULL` | Human-readable reference (e.g., 'BK-2026-9481'). |
-| `vehicle_id` | `UUID` | `NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE` | FK to vehicle being serviced. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | FK to customer user. |
-| `mechanic_id` | `UUID` | `NOT NULL REFERENCES mechanics(id) ON DELETE CASCADE` | FK to selected workshop. |
-| `diagnosis_id` | `UUID` | `REFERENCES diagnoses(id) ON DELETE SET NULL` | Optional FK to initiating diagnosis. |
-| `problem_summary` | `TEXT` | `NOT NULL` | Customer description of issue. |
-| `ai_preliminary_assessment` | `TEXT` | `NULL` | AI summary forwarded to workshop. |
-| `service_type` | `VARCHAR(100)` | `NOT NULL` | Type (e.g., 'Brake Overhaul', 'Scheduled Service'). |
-| `appointment_date` | `DATE` | `NOT NULL` | Scheduled service date. |
-| `time_slot` | `VARCHAR(50)` | `NOT NULL` | Selected time window (e.g., '10:00 AM - 12:00 PM'). |
-| `status` | `VARCHAR(50)` | `NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'vehicle_received', 'diagnosing', 'repairing', 'quality_check', 'completed', 'cancelled'))` | Bay lifecycle status. |
-| `notes` | `TEXT` | `NULL` | Additional customer / mechanic notes. |
-| `estimated_total` | `NUMERIC(10,2)` | `NULL` | Projected cost in INR. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Booking creation date. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+## 18. How to Run Tests
+
+### Run Frontend Unit Tests (Vitest)
+```bash
+# Run all frontend tests once
+npm test
+
+# Run frontend tests in watch mode
+npm run test:watch
+```
+
+### Run Backend Unit Tests (Pytest)
+```bash
+# Run all backend tests with verbose output
+cd backend
+python3 -m pytest -v
+```
+
+### Run the Full Platform Test Suite
+```bash
+# Frontend
+npm test
+
+# Backend
+cd backend && pytest -v && cd ..
+```
 
 ---
 
-### Table 8: `service_records`
-Historical completed service records and job cards.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Service record identifier. |
-| `booking_id` | `UUID` | `REFERENCES bookings(id) ON DELETE SET NULL` | Originating booking ID. |
-| `vehicle_id` | `UUID` | `NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE` | Serviced vehicle FK. |
-| `mechanic_id` | `UUID` | `NOT NULL REFERENCES mechanics(id) ON DELETE CASCADE` | Servicing workshop FK. |
-| `mechanic_name` | `VARCHAR(255)` | `NOT NULL` | Technician name. |
-| `workshop_name` | `VARCHAR(255)` | `NOT NULL` | Workshop business name. |
-| `service_date` | `DATE` | `NOT NULL` | Date service was performed. |
-| `title` | `VARCHAR(255)` | `NOT NULL` | Service summary title. |
-| `final_cost` | `NUMERIC(10,2)` | `NOT NULL` | Total final invoice cost. |
-| `parts_replaced` | `JSONB` | `DEFAULT '[]'::jsonb` | Itemized replaced parts with individual prices. |
-| `labour_cost` | `NUMERIC(10,2)` | `NOT NULL DEFAULT 0` | Labor fee in INR. |
-| `mechanic_notes` | `TEXT` | `NULL` | Technical workshop notes. |
-| `mileage_at_service` | `INT` | `NOT NULL` | Odometer reading during service. |
-| `next_service_due_mileage` | `INT` | `NOT NULL` | Target mileage for next scheduled service. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Record creation timestamp. |
+## 19. Expected Test Results
+
+All 96 unit tests across both suites execute and pass completely:
+
+```
+============================= Frontend Vitest Results =============================
+ ✓ src/test/auth.test.ts (6 tests)
+ ✓ src/test/bookings.test.ts (7 tests)
+ ✓ src/test/diagnosis.test.ts (9 tests)
+ ✓ src/test/errorBoundary.test.tsx (5 tests)
+ ✓ src/test/vehicles.test.ts (8 tests)
+
+ Test Files  5 passed (5)
+      Tests  35 passed (35)
+   Duration  5.40s
+===================================================================================
+
+============================= Backend Pytest Results ==============================
+tests/test_api_endpoints.py .................                            [ 27%]
+tests/test_audio_model.py ......                                         [ 37%]
+tests/test_diagnosis_cases.py ......                                     [ 47%]
+tests/test_error_handling.py ......                                      [ 57%]
+tests/test_fusion.py ....                                                [ 63%]
+tests/test_image_model.py .......                                        [ 75%]
+tests/test_text_model.py ...............                                 [100%]
+
+======================== 61 passed, 1 warning in 0.57s =========================
+===================================================================================
+
+============================== OVERALL TEST SUMMARY ==============================
+ Total Test Files:  12
+ Total Unit Tests:  96
+ Passing Tests:     96 (100%)
+ Failing Tests:     0
+ Total Duration:    < 6.0 seconds
+===================================================================================
+```
 
 ---
 
-### Table 9: `maintenance_records`
-Preventative component health and replacement intervals.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Record identifier. |
-| `vehicle_id` | `UUID` | `NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE` | Associated vehicle FK. |
-| `title` | `VARCHAR(255)` | `NOT NULL` | Component check title (e.g., 'Engine Oil Flush'). |
-| `component` | `VARCHAR(100)` | `NOT NULL` | Subsystem (e.g., 'Engine', 'Brakes', 'Transmission'). |
-| `status` | `VARCHAR(50)` | `NOT NULL CHECK (status IN ('due_soon', 'upcoming', 'healthy'))` | Maintenance urgency status. |
-| `due_mileage` | `INT` | `NULL` | Target replacement kilometer mark. |
-| `estimated_km_remaining` | `INT` | `NULL` | Remaining kilometers before maintenance. |
-| `due_date` | `DATE` | `NULL` | Calendar due date. |
-| `last_checked_date` | `DATE` | `NOT NULL` | Date of last physical inspection. |
-| `recommendation` | `TEXT` | `NOT NULL` | Preventive action guidance. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Record timestamp. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
+## 20. Future Improvements
 
----
-
-### Table 10: `notifications`
-Real-time system, diagnostic, and booking notifications.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Notification ID. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | Target recipient user FK. |
-| `title` | `VARCHAR(255)` | `NOT NULL` | Notification headline. |
-| `message` | `TEXT` | `NOT NULL` | Notification body message. |
-| `type` | `VARCHAR(50)` | `NOT NULL CHECK (type IN ('info', 'alert', 'success', 'warning'))` | Alert visual type. |
-| `is_read` | `BOOLEAN` | `DEFAULT FALSE` | Read status flag. |
-| `link_url` | `TEXT` | `NULL` | Deep link route. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Timestamp generated. |
-
----
-
-### Table 11: `reviews`
-Verified customer ratings and feedback for workshops.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Review identifier. |
-| `mechanic_id` | `UUID` | `NOT NULL REFERENCES mechanics(id) ON DELETE CASCADE` | Reviewed workshop FK. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | Reviewing customer FK. |
-| `user_name` | `VARCHAR(255)` | `NOT NULL` | Author display name. |
-| `user_avatar` | `TEXT` | `NULL` | Author avatar URI. |
-| `rating` | `INT` | `NOT NULL CHECK (rating BETWEEN 1 AND 5)` | 1-5 star rating. |
-| `comment` | `TEXT` | `NOT NULL` | Customer review text. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Review timestamp. |
-
----
-
-### Table 12: `parts`
-Workshop spare parts catalog and inventory.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Part catalog identifier. |
-| `name` | `VARCHAR(255)` | `NOT NULL` | Component name (e.g., 'Ceramic Brake Pad Set'). |
-| `part_number` | `VARCHAR(100)` | `UNIQUE NOT NULL` | SKU / OEM part number. |
-| `category` | `VARCHAR(100)` | `NOT NULL` | Subsystem category. |
-| `compatible_models` | `JSONB` | `DEFAULT '[]'::jsonb` | Array of compatible vehicle models. |
-| `price` | `NUMERIC(10,2)` | `NOT NULL` | Retail unit price in INR. |
-| `in_stock` | `BOOLEAN` | `DEFAULT TRUE` | In-stock availability flag. |
-| `stock_count` | `INT` | `DEFAULT 0` | Quantity currently in stock. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Catalog entry date. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Trigger-updated timestamp. |
-
----
-
-### Table 13: `invoices`
-Digital billing statements and tax breakdowns.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Unique invoice identifier. |
-| `booking_id` | `UUID` | `NOT NULL REFERENCES bookings(id) ON DELETE CASCADE` | Associated booking FK. |
-| `service_record_id` | `UUID` | `REFERENCES service_records(id) ON DELETE SET NULL` | Associated completed service record. |
-| `total_amount` | `NUMERIC(10,2)` | `NOT NULL` | Total gross payable in INR. |
-| `parts_total` | `NUMERIC(10,2)` | `NOT NULL DEFAULT 0` | Subtotal for replaced parts. |
-| `labour_total` | `NUMERIC(10,2)` | `NOT NULL DEFAULT 0` | Subtotal for workshop labor. |
-| `taxes` | `NUMERIC(10,2)` | `NOT NULL DEFAULT 0` | GST / tax component. |
-| `paid_status` | `VARCHAR(50)` | `DEFAULT 'unpaid' CHECK (paid_status IN ('paid', 'unpaid', 'pending'))` | Payment settlement status. |
-| `invoice_date` | `DATE` | `NOT NULL DEFAULT CURRENT_DATE` | Date invoice was issued. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Invoice creation timestamp. |
-
----
-
-### Table 14: `ai_conversations`
-Persistent multi-turn conversation logs with AI diagnostic assistant.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `id` | `UUID` | `PRIMARY KEY DEFAULT gen_random_uuid()` | Conversation session identifier. |
-| `user_id` | `UUID` | `NOT NULL REFERENCES users(id) ON DELETE CASCADE` | Owner user FK. |
-| `vehicle_id` | `UUID` | `REFERENCES vehicles(id) ON DELETE SET NULL` | Context vehicle FK. |
-| `messages` | `JSONB` | `NOT NULL DEFAULT '[]'::jsonb` | Serialized array of user and assistant messages. |
-| `created_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Session start time. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Last interaction timestamp. |
-
----
-
-### Table 15: `user_settings`
-Personalized user preferences and AI diagnostic tuning.
-| Column | Data Type | Constraints | Description |
-| :--- | :--- | :--- | :--- |
-| `user_id` | `UUID` | `PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE` | User FK (1:1 relationship). |
-| `profile` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | Extended profile metadata. |
-| `ai_preferences` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | AI diagnostic tuning (response style, follow-up flags). |
-| `notification_preferences` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | Email and push alert toggles. |
-| `appearance_preferences` | `JSONB` | `NOT NULL DEFAULT '{}'::jsonb` | Theme and display configurations. |
-| `updated_at` | `TIMESTAMPTZ` | `DEFAULT CURRENT_TIMESTAMP` | Last updated timestamp. |
+1. **On-Device Edge ML Inference**: Convert scikit-learn and audio feature extractors to ONNX / TensorFlow Lite WebAssembly for zero-latency in-browser inference without internet connectivity.
+2. **OBD-II Bluetooth Streaming**: Integrate Web Bluetooth API to read real-time PID live data (coolant temp, RPM, fuel trim, MAF sensor) directly from ELM327 adapters.
+3. **Automated Parts Replenishment**: Direct integration with auto-parts supplier APIs (e.g. Bosch, TVS Auto) for automated stock replenishment when workshop inventory falls below minimum thresholds.
+4. **Multi-Tenant Workshop Billing**: Stripe / Razorpay marketplace split payments routing customer payments between workshop labor fees and platform commissions.
 
 ---
 

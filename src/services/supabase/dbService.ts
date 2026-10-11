@@ -24,6 +24,28 @@ import {
   DEMO_PARTS,
 } from '../../database/mockData';
 
+/**
+ * DriveIQ Database Service & Repository Layer
+ *
+ * ARCHITECTURAL DESIGN:
+ * This layer implements the Repository Pattern providing a unified abstraction over Supabase PostgreSQL.
+ *
+ * KEY RESPONSIBILITIES & DESIGN DECISIONS:
+ * 1. Dual-Mode Operational Resilience:
+ *    When Supabase credentials or network connectivity are unavailable (e.g., local dev, CI/CD,
+ *    testing, offline demonstration), all repositories transparently fall back to strongly-typed
+ *    in-memory seed data (`mockData.ts`). This guarantees the platform never enters a crash state.
+ *
+ * 2. Schema Translation:
+ *    Translates PostgreSQL snake_case column names (`owner_id`, `created_at`, `health_score`)
+ *    into clean frontend TypeScript camelCase domain entities (`ownerId`, `createdAt`, `healthScore`).
+ *
+ * 3. Graceful Error Interception:
+ *    Database errors (RLS permission violations, schema changes, network disconnects) are
+ *    intercepted by `handleDbError`, logged with contextual telemetry, and resolved with safe
+ *    fallbacks rather than uncaught rejections.
+ */
+
 // Helper to check for table errors or missing schema
 const handleDbError = (context: string, error: any) => {
   if (error) {
@@ -35,8 +57,13 @@ const handleDbError = (context: string, error: any) => {
 
 // ==============================================================================
 // 1. VEHICLES REPOSITORY
+// Handles vehicle registry operations, ownership mapping, and mileage updates
 // ==============================================================================
 export const vehiclesService = {
+  /**
+   * Retrieves registered vehicles, optionally filtered by owner UUID.
+   * Falls back to offline garage data if database query fails or yields empty result.
+   */
   async getVehicles(ownerId?: string): Promise<Vehicle[]> {
     if (!isSupabaseConfigured()) return DEMO_VEHICLES;
 

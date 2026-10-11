@@ -72,8 +72,20 @@ async def api_health_check():
 @router.post("/ml/pipeline", response_model=PipelineResponse)
 async def run_ml_pipeline(req: PipelineRequest):
     """
-    Real Machine Learning Pipeline Execution Endpoint.
-    Input -> Tokenization -> TF-IDF Feature Extraction -> Random Forest Classification -> Probabilities -> Diagnosis.
+    Executes the 4-Stage Machine Learning Diagnostic Pipeline.
+
+    Architecture & Processing Stages:
+    - Stage 1 (Text Preprocessing & Normalization): Lowercases text, cleans punctuation,
+      and tokenizes into alphabetic linguistic units (filtering terms of length <= 2).
+    - Stage 2 (Sparse TF-IDF Feature Extraction): Computes Term Frequency-Inverse Document
+      Frequency vector over the 600+ automotive vocabulary; extracts active non-zero feature weights.
+    - Stage 3 (Ensemble Classification & Probabilistic Inference): Runs a 150-estimator Random Forest
+      classifier to compute posterior class probabilities across all 8 automotive diagnostic categories.
+    - Stage 4 (Mechanical Advisory & Severity Synthesis): Maps the top predicted category to
+      actionable mechanical inspection guidance, severity classification, and component diagnostics.
+
+    Returns:
+        PipelineResponse containing structured data for all 4 pipeline stages.
     """
     symptom = req.symptom.strip()
     if not symptom:
@@ -227,7 +239,20 @@ async def perform_diagnosis(
     image: Optional[UploadFile] = File(None)
 ):
     """
-    Multimodal Vehicle Fault Diagnosis Endpoint.
+    Multimodal Vehicle Fault Diagnosis Endpoint (Late Decision Fusion).
+
+    Accepts any combination of text symptom description, engine acoustic audio recording (.wav/.webm),
+    and component diagnostic images (.jpg/.png).
+
+    Late Fusion Methodology:
+    - Text Stream: TF-IDF feature extraction + Random Forest inference (weight ~0.40).
+    - Audio Stream: Acoustic feature extraction (MFCCs, spectral centroid, RMS energy) (weight ~0.35).
+    - Visual Stream: Color thresholding, Canny edge density, and component texture analysis (weight ~0.25).
+    - The late fusion engine dynamically normalizes weights based on provided modalities,
+      aggregates class likelihoods, checks confidence thresholds, and computes comprehensive evidence.
+
+    Returns:
+        DiagnosisResponse with primary fault, confidence, reasoning, evidence, and cost estimate.
     """
     audio_bytes = None
     if audio:

@@ -140,9 +140,42 @@ export interface ModelEvaluationData {
   is_prototype: boolean;
 }
 
+/**
+ * Executes a network fetch request with a strict timeout and granular error classification.
+ * Prevents requests from hanging indefinitely on network failure, handles status codes,
+ * and safely unwraps json.
+ */
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit = {},
+  timeoutMs = 12000
+): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+  } catch (error: any) {
+    clearTimeout(id);
+    if (error.name === 'AbortError') {
+      throw new Error(`Diagnostic request timed out after ${timeoutMs / 1000}s. Backend service may be overloaded or offline.`);
+    }
+    if (error instanceof TypeError && error.message.toLowerCase().includes('fetch')) {
+      throw new Error(`Network connection error: Unable to reach DriveIQ API at ${url}. Please verify connection.`);
+    }
+    throw error;
+  }
+}
+
 class ApiAiService implements AiServiceAdapter {
   /**
-   * Performs multimodal vehicle diagnosis via FastAPI backend
+   * Performs multimodal vehicle diagnosis via FastAPI backend with resilient fallbacks.
+   * Handles timeouts, network failures, invalid responses, and payload parsing.
    */
   async symptomDiagnosis(input: SymptomDiagnosisInput): Promise<Diagnosis> {
     const vehicleContext = input.vehicle
@@ -173,16 +206,27 @@ class ApiAiService implements AiServiceAdapter {
         }
       }
 
-      const res = await fetch(`${API_BASE_URL}/api/diagnosis`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/api/diagnosis`, {
         method: 'POST',
         body: formData,
-      });
+      }, 12000);
 
       if (!res.ok) {
-        throw new Error(`ML Backend returned status ${res.status}`);
+        let errorMessage = `ML Backend returned status ${res.status}`;
+        try {
+          const errData = await res.json();
+          errorMessage = errData.error || errData.detail || errorMessage;
+        } catch {
+          // Response body was empty or non-JSON
+        }
+        throw new Error(errorMessage);
       }
 
       const data: BackendDiagnosisResponse = await res.json();
+
+      if (!data || !data.diagnosis || !data.primary_category) {
+        throw new Error('Received malformed or empty diagnosis payload from backend.');
+      }
 
       const parseCost = (rangeStr: string) => {
         const matches = rangeStr.match(/(\d[\d,]*)/g);
@@ -221,27 +265,27 @@ class ApiAiService implements AiServiceAdapter {
         possibleCauses: possibleCauses.length > 0 ? possibleCauses : [
           { name: data.primary_category, confidence: Math.round(data.confidence * 100) }
         ],
-        reasoning: data.reasoning,
-        evidence: data.evidence,
+        reasoning: data.reasoning || [],
+        evidence: data.evidence || [],
         recommendation: {
           priority: data.severity === 'Critical' ? 'urgent' : data.severity === 'High' ? 'high' : 'medium',
-          action: data.recommendation[0] || 'Inspect vehicle at a certified service center.',
+          action: (data.recommendation && data.recommendation[0]) || 'Inspect vehicle at a certified service center.',
           avoid: data.severity === 'Critical' ? 'Do not drive at high speeds or under load.' : 'Avoid ignoring symptoms.',
         },
-        estimatedCost: parseCost(data.estimated_cost_range),
+        estimatedCost: parseCost(data.estimated_cost_range || ''),
         safetyWarning: data.safety_warning,
         inputSymptoms: input.symptoms,
         additionalContext: input.additionalContext,
         modalitiesUsed: data.modalities,
-        modalityBreakdown: data.modality_breakdown,
-        categoryProbabilities: data.category_probabilities,
+        modalityBreakdown: data.modality_breakdown || [],
+        categoryProbabilities: data.category_probabilities || {},
         modelInfo: {
-          name: data.model.name,
-          version: data.model.version,
-          model_type: data.model.model_type,
-          dataset_source: data.model.dataset_source,
-          training_samples: data.model.training_samples,
-          feature_count: data.model.feature_count,
+          name: data.model?.name || 'AutoSense Fault Classifier',
+          version: data.model?.version || '1.0',
+          model_type: data.model?.model_type || 'Random Forest Classifier',
+          dataset_source: data.model?.dataset_source || 'Multi-Modal Vehicle Fault Dataset',
+          training_samples: data.model?.training_samples,
+          feature_count: data.model?.feature_count,
         },
         status: 'preliminary',
         createdAt: new Date().toISOString(),
@@ -253,20 +297,20 @@ class ApiAiService implements AiServiceAdapter {
   }
 
   /**
-   * Health Check calling FastAPI backend
+   * Health Check calling FastAPI backend with timeout protection
    */
   async checkHealth(): Promise<HealthResponse | null> {
     try {
-      const res = await fetch(`${API_BASE_URL}/health`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/health`, {}, 5000);
       if (res.ok) return await res.json();
     } catch (e) {
-      // Backend is offline
+      // Backend is offline or timed out
     }
     return null;
   }
 
   /**
-   * Runs the ML Pipeline Inspector (POST /api/ml/pipeline)
+   * Runs the ML Pipeline Inspector (POST /api/ml/pipeline) with validated timeout
    */
   async runMlPipeline(symptom: string, vehicleContext: string = ''): Promise<PipelineResponse> {
     const trimmed = symptom.trim();
@@ -274,7 +318,7 @@ class ApiAiService implements AiServiceAdapter {
       throw new Error('Please enter a vehicle symptom.');
     }
 
-    const res = await fetch(`${API_BASE_URL}/api/ml/pipeline`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/api/ml/pipeline`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -283,18 +327,24 @@ class ApiAiService implements AiServiceAdapter {
         symptom: trimmed,
         vehicle_context: vehicleContext,
       }),
-    });
+    }, 10000);
 
     if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.detail || `ML Backend returned status ${res.status}`);
+      let errDetail = `ML Backend returned status ${res.status}`;
+      try {
+        const errData = await res.json();
+        errDetail = errData.error || errData.detail || errDetail;
+      } catch {
+        // Response body empty or non-JSON
+      }
+      throw new Error(errDetail);
     }
 
     const result: PipelineResponse = await res.json();
 
-    console.log("FULL ML PIPELINE RESPONSE:", JSON.stringify(result, null, 2));
-    console.log("STAGE 3:", result.stage3);
-    console.log("STAGE 4:", result.stage4);
+    if (!result || !result.stage3 || !result.stage4) {
+      throw new Error('ML Pipeline returned invalid stage results.');
+    }
 
     return result;
   }
@@ -304,7 +354,7 @@ class ApiAiService implements AiServiceAdapter {
    */
   async getModelEvaluation(): Promise<ModelEvaluationData | null> {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/model-evaluation`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/api/model-evaluation`, {}, 8000);
       if (res.ok) return await res.json();
     } catch (e) {
       console.warn('Failed to fetch model evaluation from API:', e);

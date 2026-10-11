@@ -1,8 +1,11 @@
 import os
 import sys
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.responses import JSONResponse
 
 # Ensure backend directory is in path
 backend_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,10 +22,53 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("AutoSenseMain")
 
 app = FastAPI(
-    title="AutoSense AI — Multimodal Diagnostic Engine API",
-    description="Real Machine Learning backend for Vehicle Fault Classification using NLP, Acoustic Analysis, Computer Vision, and Multimodal Late Fusion.",
+    title="DriveIQ / AutoSense AI — Multimodal Diagnostic Engine API",
+    description="Production Machine Learning backend for Vehicle Fault Classification using NLP, Acoustic Analysis, Computer Vision, and Multimodal Late Fusion.",
     version="1.0.0"
 )
+
+# Centralized Exception Handlers for safe, consistent error responses
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Handles schema validation errors, returning structured 422 responses without leaking internals."""
+    logger.warning("Validation error on %s %s: %s", request.method, request.url.path, exc.errors())
+    return JSONResponse(
+        status_code=422,
+        content={
+            "success": False,
+            "error": "Request validation failed",
+            "detail": exc.errors(),
+            "code": "VALIDATION_ERROR"
+        }
+    )
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """Handles HTTPExceptions with consistent format while preserving the detail field for client contract."""
+    logger.warning("HTTP error %d on %s %s: %s", exc.status_code, request.method, request.url.path, exc.detail)
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "success": False,
+            "error": exc.detail,
+            "detail": exc.detail,
+            "code": f"HTTP_{exc.status_code}"
+        }
+    )
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    """Catch-all for internal processing failures; logs full stack trace securely while masking raw tracebacks from clients."""
+    logger.exception("Unhandled server exception on %s %s: %s", request.method, request.url.path, exc)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False,
+            "error": "Internal diagnostic engine error. Please check server logs.",
+            "detail": "Internal server error occurred during diagnostic processing.",
+            "code": "INTERNAL_SERVER_ERROR"
+        }
+    )
 
 # Enable CORS for React Frontend (Vite on 5173/5174/3000 / localhost)
 app.add_middleware(

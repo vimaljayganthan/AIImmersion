@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { GlobalNavbar } from '../components/common/GlobalNavbar';
 import { AutoSenseLogo } from '../components/common/AutoSenseLogo';
+import { ErrorBoundary } from '../components/common/ErrorBoundary';
 
 export const DashboardLayout: React.FC = () => {
   return (
@@ -12,7 +13,9 @@ export const DashboardLayout: React.FC = () => {
       {/* Main Content Area - Renders exactly ONE child route via Outlet on a clean solid content surface (Layer 2) */}
       <main className="flex-1 w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 animate-in fade-in duration-150">
         <div className="bg-slate-50/95 border border-slate-200/90 shadow-sm rounded-3xl p-5 sm:p-7 lg:p-9 min-h-[calc(100vh-160px)]">
-          <Outlet />
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
         </div>
       </main>
 
